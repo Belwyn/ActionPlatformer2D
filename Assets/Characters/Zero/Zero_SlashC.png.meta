@@ -1,0 +1,464 @@
+fileFormatVersion: 2
+guid: 4785f190bd22e374c91c84986af4043a
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 1552433140856816601
+    second: Zero_SlashC_0
+  - first:
+      213: -5082356031866280999
+    second: Zero_SlashC_1
+  - first:
+      213: -8965550504809293325
+    second: Zero_SlashC_2
+  - first:
+      213: -2674933268346668254
+    second: Zero_SlashC_3
+  - first:
+      213: 1252432497157634128
+    second: Zero_SlashC_4
+  - first:
+      213: 5317497765052382220
+    second: Zero_SlashC_5
+  - first:
+      213: 8817799826548605064
+    second: Zero_SlashC_6
+  - first:
+      213: 6344978944176353929
+    second: Zero_SlashC_7
+  - first:
+      213: -1317223882576098399
+    second: Zero_SlashC_8
+  - first:
+      213: -2904262231763476431
+    second: Zero_SlashC_9
+  - first:
+      213: 8998982505744060446
+    second: Zero_SlashC_10
+  - first:
+      213: -1795342909477928041
+    second: Zero_SlashC_11
+  - first:
+      213: 7679746380612879614
+    second: Zero_SlashC_12
+  - first:
+      213: -3408105049337957217
+    second: Zero_SlashC_13
+  - first:
+      213: 3957761248136817830
+    second: Zero_SlashC_14
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 0
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 10
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Zero_SlashC_0
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 16
+        width: 46
+        height: 51
+      alignment: 9
+      pivot: {x: 0.39130434, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9d3805a67b95b8510800000000000000
+      internalID: 1552433140856816601
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_SlashC_1
+      rect:
+        serializedVersion: 2
+        x: 61
+        y: 16
+        width: 47
+        height: 50
+      alignment: 9
+      pivot: {x: 0.3617021, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9d3eb82dd18d779b0800000000000000
+      internalID: -5082356031866280999
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_SlashC_2
+      rect:
+        serializedVersion: 2
+        x: 130
+        y: 16
+        width: 54
+        height: 59
+      alignment: 9
+      pivot: {x: 0.35185185, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3f994014157f39380800000000000000
+      internalID: -8965550504809293325
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_SlashC_3
+      rect:
+        serializedVersion: 2
+        x: 199
+        y: 16
+        width: 96
+        height: 64
+      alignment: 9
+      pivot: {x: 0.7291667, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 22b72566d5ab0ead0800000000000000
+      internalID: -2674933268346668254
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_SlashC_4
+      rect:
+        serializedVersion: 2
+        x: 309
+        y: 9
+        width: 103
+        height: 71
+      alignment: 9
+      pivot: {x: 0.6796117, y: 0.09859155}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0587c3278b8816110800000000000000
+      internalID: 1252432497157634128
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_SlashC_5
+      rect:
+        serializedVersion: 2
+        x: 429
+        y: 8
+        width: 104
+        height: 66
+      alignment: 9
+      pivot: {x: 0.68269235, y: 0.121212125}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c0c71e34b0c8bc940800000000000000
+      internalID: 5317497765052382220
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_SlashC_6
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 8
+        width: 104
+        height: 70
+      alignment: 9
+      pivot: {x: 0.68269235, y: 0.114285715}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8804ee9393e1f5a70800000000000000
+      internalID: 8817799826548605064
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_SlashC_7
+      rect:
+        serializedVersion: 2
+        x: 671
+        y: 8
+        width: 72
+        height: 67
+      alignment: 9
+      pivot: {x: 0.5416667, y: 0.11940298}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 982f6fa8bb4ed0850800000000000000
+      internalID: 6344978944176353929
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_SlashC_8
+      rect:
+        serializedVersion: 2
+        x: 758
+        y: 8
+        width: 58
+        height: 55
+      alignment: 9
+      pivot: {x: 0.43103448, y: 0.14545454}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1ab04659bd748bde0800000000000000
+      internalID: -1317223882576098399
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_SlashC_9
+      rect:
+        serializedVersion: 2
+        x: 828
+        y: 12
+        width: 53
+        height: 43
+      alignment: 9
+      pivot: {x: 0.3773585, y: 0.093023255}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 130a72d33ecf1b7d0800000000000000
+      internalID: -2904262231763476431
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_SlashC_10
+      rect:
+        serializedVersion: 2
+        x: 895
+        y: 15
+        width: 51
+        height: 40
+      alignment: 9
+      pivot: {x: 0.3529412, y: 0.025}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e1054da09eec2ec70800000000000000
+      internalID: 8998982505744060446
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_SlashC_11
+      rect:
+        serializedVersion: 2
+        x: 960
+        y: 16
+        width: 51
+        height: 39
+      alignment: 9
+      pivot: {x: 0.3529412, y: -0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7934d8ec229a517e0800000000000000
+      internalID: -1795342909477928041
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_SlashC_12
+      rect:
+        serializedVersion: 2
+        x: 1025
+        y: 16
+        width: 51
+        height: 39
+      alignment: 9
+      pivot: {x: 0.3529412, y: -0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ef4c585e4a0f39a60800000000000000
+      internalID: 7679746380612879614
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_SlashC_13
+      rect:
+        serializedVersion: 2
+        x: 1090
+        y: 16
+        width: 51
+        height: 39
+      alignment: 9
+      pivot: {x: 0.3529412, y: -0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f94fef8b38af3b0d0800000000000000
+      internalID: -3408105049337957217
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_SlashC_14
+      rect:
+        serializedVersion: 2
+        x: 1154
+        y: 16
+        width: 41
+        height: 44
+      alignment: 9
+      pivot: {x: 0.3902439, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6ac6005d2eacce630800000000000000
+      internalID: 3957761248136817830
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
