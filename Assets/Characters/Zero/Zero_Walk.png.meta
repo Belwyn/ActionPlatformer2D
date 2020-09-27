@@ -1,0 +1,536 @@
+fileFormatVersion: 2
+guid: fdeff93ab8d13784aa6c13483a8c14b6
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -3756003657440119649
+    second: Zero_Walk_0
+  - first:
+      213: -7815132196914205219
+    second: Zero_Walk_1
+  - first:
+      213: 9007709333876488540
+    second: Zero_Walk_2
+  - first:
+      213: -969118534301768721
+    second: Zero_Walk_3
+  - first:
+      213: 7539571973881463656
+    second: Zero_Walk_4
+  - first:
+      213: 33458790451965408
+    second: Zero_Walk_5
+  - first:
+      213: 4115796047883250
+    second: Zero_Walk_6
+  - first:
+      213: -8108304639658430259
+    second: Zero_Walk_7
+  - first:
+      213: -3772345754279808472
+    second: Zero_Walk_8
+  - first:
+      213: -4080186070299694211
+    second: Zero_Walk_9
+  - first:
+      213: -8189100968530719248
+    second: Zero_Walk_10
+  - first:
+      213: 4012254741942100241
+    second: Zero_Walk_11
+  - first:
+      213: 5612250730937044635
+    second: Zero_Walk_12
+  - first:
+      213: -2246257547933305566
+    second: Zero_Walk_13
+  - first:
+      213: -6467763102065119091
+    second: Zero_Walk_14
+  - first:
+      213: -7675745621780672477
+    second: Zero_Walk_15
+  - first:
+      213: -5598815275554110269
+    second: Zero_Walk_16
+  - first:
+      213: -2318486427993929390
+    second: Zero_Walk_17
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 0
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 10
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Zero_Walk_0
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 0
+        width: 36
+        height: 46
+      alignment: 9
+      pivot: {x: 0.44444445, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f94b63fd29effdbc0800000000000000
+      internalID: -3756003657440119649
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Walk_1
+      rect:
+        serializedVersion: 2
+        x: 51
+        y: 0
+        width: 38
+        height: 47
+      alignment: 9
+      pivot: {x: 0.42105263, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ddde53a5ca21b8390800000000000000
+      internalID: -7815132196914205219
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Walk_2
+      rect:
+        serializedVersion: 2
+        x: 99
+        y: 0
+        width: 51
+        height: 47
+      alignment: 9
+      pivot: {x: 0.3529412, y: -0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c59bdad0aefc10d70800000000000000
+      internalID: 9007709333876488540
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Walk_3
+      rect:
+        serializedVersion: 2
+        x: 151
+        y: 0
+        width: 50
+        height: 46
+      alignment: 9
+      pivot: {x: 0.39999998, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fe322b1e3dffc82f0800000000000000
+      internalID: -969118534301768721
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Walk_4
+      rect:
+        serializedVersion: 2
+        x: 218
+        y: 0
+        width: 48
+        height: 47
+      alignment: 9
+      pivot: {x: 0.375, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 86302bd83c0f1a860800000000000000
+      internalID: 7539571973881463656
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Walk_5
+      rect:
+        serializedVersion: 2
+        x: 274
+        y: 0
+        width: 46
+        height: 48
+      alignment: 9
+      pivot: {x: 0.39130434, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0ede087b79ed67000800000000000000
+      internalID: 33458790451965408
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Walk_6
+      rect:
+        serializedVersion: 2
+        x: 326
+        y: 0
+        width: 44
+        height: 49
+      alignment: 9
+      pivot: {x: 0.3409091, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2fbe6617b4f9e0000800000000000000
+      internalID: 4115796047883250
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Walk_7
+      rect:
+        serializedVersion: 2
+        x: 376
+        y: 0
+        width: 40
+        height: 49
+      alignment: 9
+      pivot: {x: 0.35, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dc0f18ec3e3897f80800000000000000
+      internalID: -8108304639658430259
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Walk_8
+      rect:
+        serializedVersion: 2
+        x: 422
+        y: 0
+        width: 45
+        height: 48
+      alignment: 9
+      pivot: {x: 0.35555556, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 822f232f58fe5abc0800000000000000
+      internalID: -3772345754279808472
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Walk_9
+      rect:
+        serializedVersion: 2
+        x: 475
+        y: 0
+        width: 49
+        height: 47
+      alignment: 9
+      pivot: {x: 0.40816325, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d7b2a4603644067c0800000000000000
+      internalID: -4080186070299694211
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Walk_10
+      rect:
+        serializedVersion: 2
+        x: 540
+        y: 0
+        width: 45
+        height: 46
+      alignment: 9
+      pivot: {x: 0.42222223, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0fd4bec8e087a5e80800000000000000
+      internalID: -8189100968530719248
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Walk_11
+      rect:
+        serializedVersion: 2
+        x: 589
+        y: 0
+        width: 50
+        height: 47
+      alignment: 9
+      pivot: {x: 0.38, y: -0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 111e5d11e646ea730800000000000000
+      internalID: 4012254741942100241
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Walk_12
+      rect:
+        serializedVersion: 2
+        x: 658
+        y: 0
+        width: 46
+        height: 48
+      alignment: 9
+      pivot: {x: 0.3478261, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b9ecde70e48b2ed40800000000000000
+      internalID: 5612250730937044635
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Walk_13
+      rect:
+        serializedVersion: 2
+        x: 712
+        y: 0
+        width: 43
+        height: 49
+      alignment: 9
+      pivot: {x: 0.27906978, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 225356d49a0b3d0e0800000000000000
+      internalID: -2246257547933305566
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Walk_14
+      rect:
+        serializedVersion: 2
+        x: 760
+        y: 0
+        width: 42
+        height: 49
+      alignment: 9
+      pivot: {x: 0.33333334, y: -0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d80b702f9b3ed36a0800000000000000
+      internalID: -6467763102065119091
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Walk_15
+      rect:
+        serializedVersion: 2
+        x: 807
+        y: 0
+        width: 45
+        height: 48
+      alignment: 9
+      pivot: {x: 0.35555556, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 320d08b56064a7590800000000000000
+      internalID: -7675745621780672477
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Walk_16
+      rect:
+        serializedVersion: 2
+        x: 862
+        y: 0
+        width: 43
+        height: 47
+      alignment: 9
+      pivot: {x: 0.41860464, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3c40191bb230d42b0800000000000000
+      internalID: -5598815275554110269
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Walk_17
+      rect:
+        serializedVersion: 2
+        x: 919
+        y: 0
+        width: 43
+        height: 47
+      alignment: 9
+      pivot: {x: 0.41860464, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2598bdaa0e413dfd0800000000000000
+      internalID: -2318486427993929390
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
