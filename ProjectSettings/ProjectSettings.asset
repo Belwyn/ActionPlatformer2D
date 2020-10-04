@@ -544,7 +544,10 @@ PlayerSettings:
   webGLLinkerTarget: 1
   webGLThreadsSupport: 0
   webGLWasmStreaming: 0
-  scriptingDefineSymbols: {}
+  scriptingDefineSymbols:
+    1: TEST_BUILD
+    4: TEST_BUILD
+    7: TEST_BUILD
   platformArchitecture: {}
   scriptingBackend: {}
   il2cppCompilerConfiguration: {}
