@@ -24,7 +24,7 @@ namespace Belwyn.ActionPlatformer.Input
                     ""name"": ""Move"",
                     ""type"": ""Value"",
                     ""id"": ""9c2c6516-e204-459c-9b8a-bef9b5dae739"",
-                    ""expectedControlType"": ""Axis"",
+                    ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """"
                 },
@@ -102,9 +102,9 @@ namespace Belwyn.ActionPlatformer.Input
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""1D Axis"",
-                    ""id"": ""c1376869-3749-4705-ad0d-f58cdb8c7c9d"",
-                    ""path"": ""1DAxis"",
+                    ""name"": ""2D Vector"",
+                    ""id"": ""d91a3ff1-63cd-490b-8e18-26c0a09ce79b"",
+                    ""path"": ""2DVector"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -113,8 +113,30 @@ namespace Belwyn.ActionPlatformer.Input
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""negative"",
-                    ""id"": ""6768e0e7-f7b1-4676-9ac4-1d25c925fb29"",
+                    ""name"": ""up"",
+                    ""id"": ""5d6194ad-2b52-4b48-85d6-ea3f56756555"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""9e4ab985-601b-49b5-bcc9-0dcf0721a16d"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""ab8eb50b-3cbd-46fb-aed0-3eb23ed5194a"",
                     ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -124,8 +146,8 @@ namespace Belwyn.ActionPlatformer.Input
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""positive"",
-                    ""id"": ""763d9e5c-6186-43b8-84d2-27e97f03a4c1"",
+                    ""name"": ""right"",
+                    ""id"": ""02af77a2-9a8d-458c-9bc9-e96dc008dcf6"",
                     ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",

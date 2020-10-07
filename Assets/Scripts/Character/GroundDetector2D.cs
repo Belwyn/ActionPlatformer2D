@@ -5,6 +5,10 @@ using UnityEngine;
 
 namespace Belwyn.ActionPlatformer.Game {
 
+
+    // Simple ground detection component
+    // TODO needs physics layers
+
     [RequireComponent(typeof(Collider2D))]
     public class GroundDetector2D : MonoBehaviour {
 
@@ -20,6 +24,9 @@ namespace Belwyn.ActionPlatformer.Game {
             _collider.isTrigger = true;
         }
 
+
+
+        // Trigger
 
         private void OnTriggerStay2D(Collider2D collision) {
             isGrounded = true;   

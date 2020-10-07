@@ -13,18 +13,25 @@ namespace Belwyn.ActionPlatformer.Game.Character {
         [SerializeField]
         private SpriteRenderer _spriteRenderer;
         [SerializeField]
-        private Rigidbody2D _rigidbody;
+        private Rigidbody2D _rb;
 
 
 
-        [Header("GroundCheck")]
+        [Header("Ground Check")]
         [SerializeField]
-        private GroundDetector2D _ground;
+        private GroundDetector2D _groundDetector;
+
 
         [Header("Parameters")]
-        public float speed = 1f;
-        public float jumpSpeed = 1f;
-        public float fallSpeed = 1f;
+        public float moveSpeed  = 1f;
+        //public float stopDrag   = 1f;
+        [Space()]
+        public float jumpSpeed  = 1f;
+        public float maxFallSpeed = 1f;
+        public float breakJumpFactor = 1f;
+        public float fallFactor  = 1f;
+
+
 
         private Vector2 _move;
         private bool _isMoving;
@@ -32,56 +39,74 @@ namespace Belwyn.ActionPlatformer.Game.Character {
 
         private bool _isJumping;
 
+        private bool grounded { get { return _groundDetector.isGrounded && _rb.velocity.y <= 0; } }
+
+
+
         private void Awake() {
             
         }
 
+
         private void FixedUpdate() {
 
-            Vector2 desiredPosition = transform.position;
-            
-            // FIXME downwards velocity check
-            _animator.Grounded(_ground.isGrounded);           
-
-            _animator.Walking(_isMoving);
-
+            float moveX = _rb.velocity.x;
+            float moveY = _rb.velocity.y;
 
             if (_isMoving) {
-                Vector2 hMove = new Vector2(_move.x, 0);
-                Vector2 delta = (hMove * Time.deltaTime * speed);
-                //if (!_ground.isGrounded)
-                //    position += ((Vector3)Physics2D.gravity * Time.deltaTime * _rigidbody.gravityScale);
-                //_rigidbody.MovePosition(position);
-                desiredPosition += delta;
-                //_rigidbody.AddForce(hMove * speed);
-                _spriteRenderer.flipX = _isRight;
+                moveX = Mathf.Sign(_move.x) * moveSpeed;
+            } 
+            else {
+                moveX = 0;
             }
 
-            _animator.Jump(_isJumping);
-            _animator.JumpAscension(_isJumping);
 
-            if (!_ground.isGrounded && !_isJumping) {
-                //_rigidbody.MovePosition(transform.position + (Vector3.down * Time.deltaTime * fallSpeed));
-                desiredPosition += (Vector2.down * Time.deltaTime * fallSpeed);
-            }
-
+            // TODO fix jump recognition behaviour
             if (_isJumping) {
-                //_rigidbody.MovePosition(transform.position + (Vector3.up * Time.deltaTime * jumpSpeed));
-                desiredPosition += (Vector2.up * Time.deltaTime * jumpSpeed);
+                moveY = jumpSpeed;
             }
-            
-            _rigidbody.MovePosition(desiredPosition);
 
-            
+            // Fall speed tweak
+            if (moveY < 0) {
+                //moveY += Physics2D.gravity.y * (fallFactor - 1) * Time.deltaTime;
+                _rb.gravityScale = fallFactor;
+            }
+            else if (moveY > 0 && !_isJumping) {
+                //moveY += Physics2D.gravity.y * (breakJumpFactor - 1) * Time.deltaTime;
+                _rb.gravityScale = breakJumpFactor;
+            } 
+            else {
+                _rb.gravityScale = 1f;
+            }
+
+            // Fall speed cap
+            moveY = Mathf.Max(moveY, -1 * maxFallSpeed);
+
+
+            // Apply velocity
+            _rb.velocity = new Vector2(moveX, moveY);
+
+
+            // Update visuals
+
+            _spriteRenderer.flipX = _isRight;
+
+            _animator.Jump(_isJumping); // FIXME not just the input, but a valid jump action
+            _animator.JumpAscension(_rb.velocity.y > 0);
+
+            _animator.Grounded(grounded);
+            _animator.Walking(_isMoving); // FIXME not just the input, but a valid move action
 
         }
 
-        public void Move(Vector2 move) {
 
+        // Control
+
+        public void Move(Vector2 move) {
+            // TODO receive integer movement
             _isMoving = move.x != 0;
             _isRight = move.x > 0;
             _move = move;
-
         }
 
 
