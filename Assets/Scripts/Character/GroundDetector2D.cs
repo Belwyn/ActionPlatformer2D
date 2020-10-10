@@ -11,16 +11,18 @@ namespace Belwyn.ActionPlatformer.Game {
     [RequireComponent(typeof(Collider2D))]
     public class GroundDetector2D : MonoBehaviour {
 
-        public bool isGrounded { get; private set; }
+        public bool isGrounded => _contacts.Count > 0;
 
         [SerializeField]
         private Collider2D _collider;
 
+        private List<Collider2D> _contacts;
 
         private void Awake() {
             if (_collider == null)
                 _collider = GetComponent<Collider2D>();
             _collider.isTrigger = true;
+            _contacts = new List<Collider2D>();
         }
 
 
@@ -28,16 +30,17 @@ namespace Belwyn.ActionPlatformer.Game {
         // Trigger
 
         private void OnTriggerEnter2D(Collider2D collision) {
-            isGrounded = true;
+            if (!_contacts.Contains(collision))
+                _contacts.Add(collision);
         }
 
         private void OnTriggerStay2D(Collider2D collision) {
-            isGrounded = true;   
+
         }
 
 
         private void OnTriggerExit2D(Collider2D collision) {
-            isGrounded = false;
+            _contacts.Remove(collision);
         }
 
     }
