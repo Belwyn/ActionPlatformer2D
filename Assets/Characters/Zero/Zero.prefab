@@ -73,7 +73,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_Sprite: {fileID: 6893530148343368237, guid: cab1b0d151cf07d449703cfe81bc9847,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -336,7 +336,9 @@ MonoBehaviour:
   _rb: {fileID: 1797124096167417722}
   _groundDetector: {fileID: 6446439801947262537}
   moveSpeed: 3
-  jumpValidTime: 0.1
+  jumpCount: 1
+  jumpBufferTime: 0.1
+  coyoteTime: 0.1
   jumpSpeed: 5
   maxFallSpeed: 8
   breakJumpFactor: 4
