@@ -7,7 +7,6 @@ namespace Belwyn.ActionPlatformer.Game {
 
 
     // Simple ground detection component
-    // TODO needs physics layers
 
     [RequireComponent(typeof(Collider2D))]
     public class GroundDetector2D : MonoBehaviour {

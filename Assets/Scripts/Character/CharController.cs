@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Belwyn.Utils.Logger;
 
 
 namespace Belwyn.ActionPlatformer.Game.Character {
@@ -37,11 +38,13 @@ namespace Belwyn.ActionPlatformer.Game.Character {
         private bool _isMoving;
         private bool _isRight;
 
+        private bool _tryJump;
         private bool _isJumping;
 
         private bool grounded { get { return _groundDetector.isGrounded && _rb.velocity.y <= 0; } }
 
-
+        private float velx =>  _rb.velocity.x;
+        private float velY =>  _rb.velocity.y;
 
         private void Awake() {
             
@@ -50,46 +53,48 @@ namespace Belwyn.ActionPlatformer.Game.Character {
 
         private void FixedUpdate() {
 
-            float moveX = _rb.velocity.x;
-            float moveY = _rb.velocity.y;
-
             if (_isMoving) {
-                moveX = Mathf.Sign(_move.x) * moveSpeed;
+                _rb.velocity = new Vector2(Mathf.Sign(_move.x) * moveSpeed, velY);
+                //_rb.AddForce(new Vector2(Mathf.Sign(_move.x) * moveSpeed /* Time.deltaTime*/, 0));
             } 
             else {
-                moveX = 0;
+                _rb.velocity = new Vector2(0, velY);
             }
 
 
-            // TODO fix jump recognition behaviour
-            if (_isJumping) {
-                moveY = jumpSpeed;
+
+            if (_tryJump && grounded) {
+                //_rb.velocity = new Vector2(_rb.velocity.x, jumpSpeed);
+                _rb.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
+                //_tryJump = false;
+                _isJumping = true;
             }
 
             // Fall speed tweak
-            if (moveY < 0) {
-                //moveY += Physics2D.gravity.y * (fallFactor - 1) * Time.deltaTime;
+            if (velY < 0) {
                 _rb.gravityScale = fallFactor;
+                _isJumping = false;
+                _tryJump = false;
             }
-            else if (moveY > 0 && !_isJumping) {
-                //moveY += Physics2D.gravity.y * (breakJumpFactor - 1) * Time.deltaTime;
+            else if (velY > 0 && !_tryJump) {
                 _rb.gravityScale = breakJumpFactor;
+                _isJumping = false;
             } 
             else {
                 _rb.gravityScale = 1f;
             }
 
             // Fall speed cap
-            moveY = Mathf.Max(moveY, -1 * maxFallSpeed);
-
-
-            // Apply velocity
-            _rb.velocity = new Vector2(moveX, moveY);
+            if (_rb.velocity.y < -1 * maxFallSpeed) {
+                _rb.velocity = new Vector2(_rb.velocity.x, -1 * maxFallSpeed);
+            }
 
 
             // Update visuals
-
-            _spriteRenderer.flipX = _isRight;
+            // FIXME not only sprite flip
+            if (_isMoving) {
+                _spriteRenderer.flipX = _isRight;
+            }
 
             _animator.Jump(_isJumping); // FIXME not just the input, but a valid jump action
             _animator.JumpAscension(_rb.velocity.y > 0);
@@ -103,7 +108,6 @@ namespace Belwyn.ActionPlatformer.Game.Character {
         // Control
 
         public void Move(Vector2 move) {
-            // TODO receive integer movement
             _isMoving = move.x != 0;
             _isRight = move.x > 0;
             _move = move;
@@ -111,7 +115,7 @@ namespace Belwyn.ActionPlatformer.Game.Character {
 
 
         public void Jump(bool jump) {
-            _isJumping = jump;
+            _tryJump = jump;
         }
 
 
