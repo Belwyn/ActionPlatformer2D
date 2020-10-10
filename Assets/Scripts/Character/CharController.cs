@@ -25,9 +25,13 @@ namespace Belwyn.ActionPlatformer.Game.Character {
 
         [Header("Parameters")]
         public float moveSpeed  = 1f;
+        public int jumpCount = 1;
 
         [Space()]
-        public float jumpValidTime = 0.1f;
+        public float jumpBufferTime = 0.1f;
+        public float coyoteTime = 0.1f;
+        
+        [Space()]
         public float jumpSpeed  = 1f;
         public float maxFallSpeed = 1f;
         public float breakJumpFactor = 1f;
@@ -41,7 +45,9 @@ namespace Belwyn.ActionPlatformer.Game.Character {
 
         private bool _tryJump;
         private bool _isJumping;
-        private float _currentJumpTime;
+        private int _currentJumpCount;
+        private float _currentJumpBuffer;
+        private float _currentCoyote;
 
 
         private bool grounded { get { return _groundDetector.isGrounded && _rb.velocity.y <= 0; } }
@@ -52,43 +58,88 @@ namespace Belwyn.ActionPlatformer.Game.Character {
 
 
         private void Awake() {
-            _currentJumpTime = jumpValidTime + 1;
+            ResetJumpBuffer();
         }
 
         private void Update() {
             if (_tryJump) {
-                _currentJumpTime += Time.deltaTime;
+                _currentJumpBuffer += Time.deltaTime;
             }
         }
 
+
+
+
         private void FixedUpdate() {
+
+            HorizontalMovement();
+
+            VerticalMovement();
+
+
+            UpdateVisuals();
+
+        }
+
+
+
+
+
+
+        private void HorizontalMovement() {
 
             if (_isMoving) {
                 _rb.velocity = new Vector2(Mathf.Sign(_move.x) * moveSpeed, velY);
                 //_rb.AddForce(new Vector2(Mathf.Sign(_move.x) * moveSpeed /* Time.deltaTime*/, 0));
-            } 
-            else {
+            } else {
                 _rb.velocity = new Vector2(0, velY);
             }
 
+        }
 
 
-            if ((_currentJumpTime <= jumpValidTime) && grounded) {
-                //_rb.velocity = new Vector2(_rb.velocity.x, jumpSpeed);
-                _rb.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
-                _isJumping = true;
+        private void VerticalMovement() {
+
+            if (grounded) {
+                _currentJumpCount = 0;
             }
+
+            HandleJumping();
+
+            HandleFalling();
+
+        }
+
+
+
+        private void HandleJumping() {
+            if (_currentJumpCount < jumpCount) {
+                if (grounded) {
+                    _currentCoyote = 0;
+                    if (_currentJumpBuffer <= jumpBufferTime) {
+                        JumpAction();
+                    }
+                } else {
+                    _currentCoyote += Time.deltaTime;
+                    if (_currentCoyote <= coyoteTime && _currentJumpBuffer <= jumpBufferTime) {
+                        JumpAction();
+                    }
+                }
+            }
+        }
+
+
+
+        private void HandleFalling() {
 
             // Fall speed tweak
             if (velY < 0) {
                 _rb.gravityScale = fallFactor;
                 _isJumping = false;
-            }
-            else if (velY > 0 && !_tryJump) {
+            } else if (velY > 0 && !_tryJump) {
                 _rb.gravityScale = breakJumpFactor;
                 _isJumping = false;
-            } 
-            else {
+            } else {
                 _rb.gravityScale = 1f;
             }
 
@@ -97,8 +148,25 @@ namespace Belwyn.ActionPlatformer.Game.Character {
                 _rb.velocity = new Vector2(_rb.velocity.x, -1 * maxFallSpeed);
             }
 
+        }
 
-            // Update visuals
+
+
+        private void JumpAction() {
+            _rb.velocity = new Vector2(_rb.velocity.x, jumpSpeed);
+            //_rb.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
+            _isJumping = true;
+            _currentJumpCount++;
+            ResetJumpBuffer();
+        }
+
+
+        private void ResetJumpBuffer() {
+            _currentJumpBuffer = jumpBufferTime + 1;
+        }
+
+
+        private void UpdateVisuals() {
             // FIXME not only sprite flip
             if (_isMoving) {
                 _spriteRenderer.flipX = _isRight;
@@ -109,7 +177,6 @@ namespace Belwyn.ActionPlatformer.Game.Character {
 
             _animator.Grounded(grounded);
             _animator.Walking(_isMoving); // FIXME not just the input, but a valid move action
-
         }
 
 
@@ -124,8 +191,15 @@ namespace Belwyn.ActionPlatformer.Game.Character {
 
         public void Jump(bool jump) {
             _tryJump = jump;
-            _currentJumpTime = jump ? 0f : jumpValidTime+1;
+            if (jump) {
+                _currentJumpBuffer = 0f;
+            } else {
+                ResetJumpBuffer();
+            }
         }
+
+
+
 
 
         public void Attack() {
