@@ -336,6 +336,7 @@ MonoBehaviour:
   _rb: {fileID: 1797124096167417722}
   _groundDetector: {fileID: 6446439801947262537}
   moveSpeed: 3
+  jumpValidTime: 0.1
   jumpSpeed: 5
   maxFallSpeed: 8
   breakJumpFactor: 4
@@ -430,6 +431,6 @@ Rigidbody2D:
   m_GravityScale: 1
   m_Material: {fileID: 0}
   m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_SleepingMode: 0
+  m_CollisionDetection: 1
   m_Constraints: 0

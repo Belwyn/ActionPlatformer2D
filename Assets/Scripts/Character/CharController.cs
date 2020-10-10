@@ -25,8 +25,9 @@ namespace Belwyn.ActionPlatformer.Game.Character {
 
         [Header("Parameters")]
         public float moveSpeed  = 1f;
-        //public float stopDrag   = 1f;
+
         [Space()]
+        public float jumpValidTime = 0.1f;
         public float jumpSpeed  = 1f;
         public float maxFallSpeed = 1f;
         public float breakJumpFactor = 1f;
@@ -40,16 +41,25 @@ namespace Belwyn.ActionPlatformer.Game.Character {
 
         private bool _tryJump;
         private bool _isJumping;
+        private float _currentJumpTime;
+
 
         private bool grounded { get { return _groundDetector.isGrounded && _rb.velocity.y <= 0; } }
 
         private float velx =>  _rb.velocity.x;
         private float velY =>  _rb.velocity.y;
 
+
+
         private void Awake() {
-            
+            _currentJumpTime = jumpValidTime + 1;
         }
 
+        private void Update() {
+            if (_tryJump) {
+                _currentJumpTime += Time.deltaTime;
+            }
+        }
 
         private void FixedUpdate() {
 
@@ -63,10 +73,9 @@ namespace Belwyn.ActionPlatformer.Game.Character {
 
 
 
-            if (_tryJump && grounded) {
+            if ((_currentJumpTime <= jumpValidTime) && grounded) {
                 //_rb.velocity = new Vector2(_rb.velocity.x, jumpSpeed);
                 _rb.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
-                //_tryJump = false;
                 _isJumping = true;
             }
 
@@ -74,7 +83,6 @@ namespace Belwyn.ActionPlatformer.Game.Character {
             if (velY < 0) {
                 _rb.gravityScale = fallFactor;
                 _isJumping = false;
-                _tryJump = false;
             }
             else if (velY > 0 && !_tryJump) {
                 _rb.gravityScale = breakJumpFactor;
@@ -116,6 +124,7 @@ namespace Belwyn.ActionPlatformer.Game.Character {
 
         public void Jump(bool jump) {
             _tryJump = jump;
+            _currentJumpTime = jump ? 0f : jumpValidTime+1;
         }
 
 
