@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static Belwyn.Utils.Logger;
@@ -34,6 +35,7 @@ namespace Belwyn.ActionPlatformer.Game.Character {
         [Space()]
         public float jumpSpeed  = 1f;
         public float maxFallSpeed = 1f;
+        public float defaultGravity = 1f;
         public float breakJumpFactor = 1f;
         public float fallFactor  = 1f;
 
@@ -50,7 +52,7 @@ namespace Belwyn.ActionPlatformer.Game.Character {
         private float _currentCoyote;
 
 
-        private bool grounded { get { return _groundDetector.isGrounded && _rb.velocity.y <= 0; } }
+        private bool grounded { get { return _groundDetector.isGrounded && _rb.velocity.y <= .00001f; } }
 
         private float velx =>  _rb.velocity.x;
         private float velY =>  _rb.velocity.y;
@@ -86,7 +88,7 @@ namespace Belwyn.ActionPlatformer.Game.Character {
 
 
 
-        private void HorizontalMovement() {
+        private void HorizontalMovement() {            
 
             if (_isMoving) {
                 _rb.velocity = new Vector2(Mathf.Sign(_move.x) * moveSpeed, velY);
@@ -94,7 +96,7 @@ namespace Belwyn.ActionPlatformer.Game.Character {
             } else {
                 _rb.velocity = new Vector2(0, velY);
             }
-
+            
         }
 
 
@@ -116,14 +118,12 @@ namespace Belwyn.ActionPlatformer.Game.Character {
             if (_currentJumpCount < jumpCount) {
                 if (grounded) {
                     _currentCoyote = 0;
-                    if (_currentJumpBuffer <= jumpBufferTime) {
-                        JumpAction();
-                    }
-                } else {
-                    _currentCoyote += Time.deltaTime;
-                    if (_currentCoyote <= coyoteTime && _currentJumpBuffer <= jumpBufferTime) {
-                        JumpAction();
-                    }
+                } 
+                else { 
+                    _currentCoyote += Time.deltaTime;                    
+                }
+                if (_currentCoyote <= coyoteTime && _currentJumpBuffer <= jumpBufferTime) {
+                    JumpAction();
                 }
             }
         }
@@ -133,14 +133,14 @@ namespace Belwyn.ActionPlatformer.Game.Character {
         private void HandleFalling() {
 
             // Fall speed tweak
-            if (velY < 0) {
+            if (velY < -.00001f) {
                 _rb.gravityScale = fallFactor;
                 _isJumping = false;
             } else if (velY > 0 && !_tryJump) {
                 _rb.gravityScale = breakJumpFactor;
                 _isJumping = false;
             } else {
-                _rb.gravityScale = 1f;
+                _rb.gravityScale = defaultGravity;
             }
 
             // Fall speed cap
@@ -205,7 +205,6 @@ namespace Belwyn.ActionPlatformer.Game.Character {
         public void Attack() {
             _animator.Attack();
         }
-
 
     }
 

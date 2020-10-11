@@ -156,7 +156,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1835013796015687953}
   - component: {fileID: 1797124096167417722}
-  - component: {fileID: 7103657258542428991}
+  - component: {fileID: 8020837201379674364}
   - component: {fileID: 1835013795619369131}
   - component: {fileID: 1835013795619369132}
   - component: {fileID: 1835013795619369133}
@@ -204,7 +204,7 @@ Rigidbody2D:
   m_SleepingMode: 0
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!61 &7103657258542428991
+--- !u!61 &8020837201379674364
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -217,18 +217,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.034999996, y: 0.21}
+  m_Offset: {x: 0.125, y: 0.7}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.41860464, y: 0}
-    oldSize: {x: 0.43, y: 0.47}
-    newSize: {x: 3.8, y: 4.6}
+    oldSize: {x: 1.34375, y: 1.46875}
+    newSize: {x: 0.43, y: 0.47}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.24, y: 0.35}
+  m_Size: {x: 1, y: 1.2}
   m_EdgeRadius: 0
 --- !u!114 &1835013795619369131
 MonoBehaviour:
@@ -335,14 +335,15 @@ MonoBehaviour:
   _spriteRenderer: {fileID: 3056295353402661050}
   _rb: {fileID: 1797124096167417722}
   _groundDetector: {fileID: 6446439801947262537}
-  moveSpeed: 3
+  moveSpeed: 7
   jumpCount: 1
   jumpBufferTime: 0.1
   coyoteTime: 0.1
-  jumpSpeed: 5
-  maxFallSpeed: 8
-  breakJumpFactor: 4
-  fallFactor: 2.5
+  jumpSpeed: 12
+  maxFallSpeed: 16
+  defaultGravity: 2.5
+  breakJumpFactor: 8
+  fallFactor: 10
 --- !u!1 &3784916506150695492
 GameObject:
   m_ObjectHideFlags: 0
@@ -388,7 +389,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.035, y: 0.005}
+  m_Offset: {x: 0.125, y: -0.05}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -399,7 +400,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.22, y: 0.06}
+  m_Size: {x: 0.9, y: 0.3}
   m_EdgeRadius: 0
 --- !u!114 &6446439801947262537
 MonoBehaviour:
