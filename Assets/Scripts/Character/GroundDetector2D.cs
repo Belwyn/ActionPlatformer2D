@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Belwyn.Utils;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,12 +12,15 @@ namespace Belwyn.ActionPlatformer.Game {
     [RequireComponent(typeof(Collider2D))]
     public class GroundDetector2D : MonoBehaviour {
 
-        public bool isGrounded => _contacts.Count > 0;
-
         [SerializeField]
         private Collider2D _collider;
 
         private List<Collider2D> _contacts;
+
+        [SerializeField]
+        private BoolEvent _onGroundChange;
+        public BoolEvent onGroundChange => _onGroundChange;
+
 
         private void Awake() {
             if (_collider == null)
@@ -26,12 +30,17 @@ namespace Belwyn.ActionPlatformer.Game {
         }
 
 
+        private void Invoke() {
+            _onGroundChange.Invoke(_contacts.Count > 0);
+        }
 
         // Trigger
 
         private void OnTriggerEnter2D(Collider2D collision) {
-            if (!_contacts.Contains(collision))
+            if (!_contacts.Contains(collision)) {
                 _contacts.Add(collision);
+                Invoke();
+            }
         }
 
         private void OnTriggerStay2D(Collider2D collision) {
@@ -40,7 +49,8 @@ namespace Belwyn.ActionPlatformer.Game {
 
 
         private void OnTriggerExit2D(Collider2D collision) {
-            _contacts.Remove(collision);
+            if(_contacts.Remove(collision))
+                Invoke();
         }
 
     }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Belwyn.Utils;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,19 +8,14 @@ using static Belwyn.Utils.Logger;
 
 namespace Belwyn.ActionPlatformer.Game.Character {
 
-    public class CharController : MonoBehaviour {
+    public class CharController : MonoBehaviour, ICharacterEvents {
 
         [Header("Components")]
         [SerializeField]
-        private CharAnimator _animator;
-        [SerializeField]
-        private SpriteRenderer _spriteRenderer;
+        private CharVisualController _visualController;
         [SerializeField]
         private Rigidbody2D _rb;
 
-
-
-        [Header("Ground Check")]
         [SerializeField]
         private GroundDetector2D _groundDetector;
 
@@ -42,87 +38,150 @@ namespace Belwyn.ActionPlatformer.Game.Character {
 
 
         private Vector2 _move;
+        private Vector2 move { 
+            set {
+                _move = value;
+                _onMovementChange.Invoke(value);
+            }
+        }
         private bool _isMoving;
         private bool _isRight;
 
         private bool _tryJump;
         private bool _isJumping;
+        private bool isJumping {
+            set {
+                _isJumping = value;
+                _onJumpingChange.Invoke(value);
+            }
+        }
         private int _currentJumpCount;
         private float _currentJumpBuffer;
         private float _currentCoyote;
 
-
-        private bool grounded { get { return _groundDetector.isGrounded && _rb.velocity.y <= .00001f; } }
+        private bool _isGroundDetected;
+        private bool _isGrounded = false;
+        private bool grounded { 
+            get { return _isGrounded; }
+            set { 
+                if(value != _isGrounded) {
+                    _isGrounded = value;
+                    onGroundedChange.Invoke(value);
+                }
+            }
+        }
 
         private float velx =>  _rb.velocity.x;
         private float velY =>  _rb.velocity.y;
 
+        [Header("Logic Events")]
+        [SerializeField]
+        private Vector2Event _onMovementChange;
+        [SerializeField]
+        private BoolEvent _onGroundedChange;
+        [SerializeField]
+        private BoolEvent _onJumpingChange;
+        [SerializeField]
+        private BoolEvent _onAttackChange;
+
+        
+        public Vector2Event onMovementChange => _onMovementChange;
+
+        public BoolEvent onGroundedChange => _onGroundedChange;
+
+        public BoolEvent onJumpingChange => _onJumpingChange;
+
+        public BoolEvent onAttackChange => _onAttackChange;
+
+
 
 
         private void Awake() {
-            ResetJumpBuffer();
+            Init();
         }
 
+
+        public void Start() {
+            RegisterListeners();
+            _visualController.Setup(this);
+        }
+
+
+        private void Init() {
+            _onMovementChange = new Vector2Event();
+            _onGroundedChange = new BoolEvent();
+            _onJumpingChange = new BoolEvent();
+            _onAttackChange = new BoolEvent();
+
+            DisableJumpBuffer();
+        }
+
+        private void RegisterListeners() {
+            // Listen to groundDetector
+            _groundDetector.onGroundChange.AddListener(b => _isGroundDetected = b);
+        }
+
+
+
+
+
         private void Update() {
+            // Process jump buffer time
             if (_tryJump) {
                 _currentJumpBuffer += Time.deltaTime;
             }
+
+            // Visuals
+            UpdateVisuals();
         }
-
-
 
 
         private void FixedUpdate() {
-
-            HorizontalMovement();
-
+            // Move-Related Logic
             VerticalMovement();
 
-
-            UpdateVisuals();
-
+            HorizontalMovement();            
         }
 
 
 
 
+        ///// Movement logic
 
-
-        private void HorizontalMovement() {            
-
+        private void HorizontalMovement() {   
             if (_isMoving) {
                 _rb.velocity = new Vector2(Mathf.Sign(_move.x) * moveSpeed, velY);
                 //_rb.AddForce(new Vector2(Mathf.Sign(_move.x) * moveSpeed /* Time.deltaTime*/, 0));
-            } else {
+            }
+            else {
                 _rb.velocity = new Vector2(0, velY);
             }
-            
         }
 
 
         private void VerticalMovement() {
+            // Ground logic
+            grounded = _isGroundDetected && _rb.velocity.y <= .00001f;
 
             if (grounded) {
                 _currentJumpCount = 0;
             }
 
+            // Jump and fall
             HandleJumping();
 
             HandleFalling();
-
         }
 
 
 
         private void HandleJumping() {
+            // Jump count limit
             if (_currentJumpCount < jumpCount) {
-                if (grounded) {
-                    _currentCoyote = 0;
-                } 
-                else { 
-                    _currentCoyote += Time.deltaTime;                    
-                }
-                if (_currentCoyote <= coyoteTime && _currentJumpBuffer <= jumpBufferTime) {
+
+                UpdateCoyote();
+
+                if ((_currentJumpCount > 0 || _currentCoyote <= coyoteTime) && _currentJumpBuffer <= jumpBufferTime) {
                     JumpAction();
                 }
             }
@@ -135,10 +194,10 @@ namespace Belwyn.ActionPlatformer.Game.Character {
             // Fall speed tweak
             if (velY < -.00001f) {
                 _rb.gravityScale = fallFactor;
-                _isJumping = false;
+                isJumping = false;
             } else if (velY > 0 && !_tryJump) {
                 _rb.gravityScale = breakJumpFactor;
-                _isJumping = false;
+                isJumping = false;
             } else {
                 _rb.gravityScale = defaultGravity;
             }
@@ -155,32 +214,49 @@ namespace Belwyn.ActionPlatformer.Game.Character {
         private void JumpAction() {
             _rb.velocity = new Vector2(_rb.velocity.x, jumpSpeed);
             //_rb.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
-            _isJumping = true;
+
+            isJumping = true;
             _currentJumpCount++;
-            ResetJumpBuffer();
+
+            DisableJumpBuffer();
         }
 
 
-        private void ResetJumpBuffer() {
+        private void UpdateCoyote() {
+            if (grounded) {
+                _currentCoyote = 0;
+            }
+            else {
+                _currentCoyote += Time.deltaTime;
+            }
+        }
+
+
+        private void DisableJumpBuffer() {
             _currentJumpBuffer = jumpBufferTime + 1;
         }
 
-
-        private void UpdateVisuals() {
-            // FIXME not only sprite flip
-            if (_isMoving) {
-                _spriteRenderer.flipX = _isRight;
-            }
-
-            _animator.Jump(_isJumping); // FIXME not just the input, but a valid jump action
-            _animator.JumpAscension(_rb.velocity.y > 0);
-
-            _animator.Grounded(grounded);
-            _animator.Walking(_isMoving); // FIXME not just the input, but a valid move action
+        private void BeginJumpBuffer() {
+            _currentJumpBuffer = 0f;
         }
 
 
-        // Control
+
+
+
+        ///// Visuals
+        
+        private void UpdateVisuals() {
+            _onMovementChange.Invoke(_rb.velocity);
+            _onGroundedChange.Invoke(grounded);
+            _onJumpingChange.Invoke(_isJumping);
+        }
+
+
+
+
+
+        ///// Control
 
         public void Move(Vector2 move) {
             _isMoving = move.x != 0;
@@ -192,18 +268,19 @@ namespace Belwyn.ActionPlatformer.Game.Character {
         public void Jump(bool jump) {
             _tryJump = jump;
             if (jump) {
-                _currentJumpBuffer = 0f;
-            } else {
-                ResetJumpBuffer();
+                BeginJumpBuffer();
+            } 
+            else {
+                DisableJumpBuffer();
             }
         }
 
 
 
 
-
+        // TODO
         public void Attack() {
-            _animator.Attack();
+            _onAttackChange.Invoke(true);
         }
 
     }

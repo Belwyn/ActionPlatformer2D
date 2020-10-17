@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 826761741903991308}
   - component: {fileID: 4402878244771324031}
   - component: {fileID: 5412559053982301692}
+  - component: {fileID: 928764779759745285}
   m_Layer: 0
   m_Name: Visual
   m_TagString: Untagged
@@ -146,6 +147,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 4402878244771324031}
+--- !u!114 &928764779759745285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 302790937855020847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca3badf3f38f3724b8baca8b4503c59b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animator: {fileID: 5412559053982301692}
+  _spriteRenderer: {fileID: 3056295353402661050}
 --- !u!1 &1835013796015687966
 GameObject:
   m_ObjectHideFlags: 0
@@ -331,19 +346,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4eeb90ed70798754fa76c1d21010228a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animator: {fileID: 5412559053982301692}
-  _spriteRenderer: {fileID: 3056295353402661050}
+  _visualController: {fileID: 928764779759745285}
   _rb: {fileID: 1797124096167417722}
   _groundDetector: {fileID: 6446439801947262537}
   moveSpeed: 7
-  jumpCount: 1
+  jumpCount: 2
   jumpBufferTime: 0.1
   coyoteTime: 0.1
-  jumpSpeed: 12
+  jumpSpeed: 14
   maxFallSpeed: 16
-  defaultGravity: 2.5
-  breakJumpFactor: 8
-  fallFactor: 10
+  defaultGravity: 3
+  breakJumpFactor: 10
+  fallFactor: 12
+  _onMovementChange:
+    m_PersistentCalls:
+      m_Calls: []
+  _onGroundedChange:
+    m_PersistentCalls:
+      m_Calls: []
+  _onJumpingChange:
+    m_PersistentCalls:
+      m_Calls: []
+  _onAttackChange:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &3784916506150695492
 GameObject:
   m_ObjectHideFlags: 0
@@ -415,3 +441,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _collider: {fileID: 3859105868173044793}
+  _onGroundChange:
+    m_PersistentCalls:
+      m_Calls: []
