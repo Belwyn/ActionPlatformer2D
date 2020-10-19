@@ -23,6 +23,8 @@ namespace Belwyn.ActionPlatformer.Game.Character {
         [Header("Parameters")]
         public float moveSpeed  = 1f;
         public int jumpCount = 1;
+        public float dashFactor = 2f;
+        public float dashTime = 1f;
 
         [Space()]
         public float jumpBufferTime = 0.1f;
@@ -44,8 +46,11 @@ namespace Belwyn.ActionPlatformer.Game.Character {
                 _onMovementChange.Invoke(value);
             }
         }
+
         private bool _isMoving;
         private bool _isRight;
+        private bool _isDashing;
+        private float _currentDashTime = 0f;
 
         private bool _tryJump;
         private bool _isJumping;
@@ -74,6 +79,8 @@ namespace Belwyn.ActionPlatformer.Game.Character {
         private float velx =>  _rb.velocity.x;
         private float velY =>  _rb.velocity.y;
 
+
+
         [Header("Logic Events")]
         [SerializeField]
         private Vector2Event _onMovementChange;
@@ -83,17 +90,14 @@ namespace Belwyn.ActionPlatformer.Game.Character {
         private BoolEvent _onJumpingChange;
         [SerializeField]
         private BoolEvent _onAttackChange;
-
+        [SerializeField]
+        private BoolEvent _onDashChange;
         
         public Vector2Event onMovementChange => _onMovementChange;
-
         public BoolEvent onGroundedChange => _onGroundedChange;
-
         public BoolEvent onJumpingChange => _onJumpingChange;
-
         public BoolEvent onAttackChange => _onAttackChange;
-
-
+        public BoolEvent onDashChange => _onDashChange;
 
 
         private void Awake() {
@@ -108,11 +112,6 @@ namespace Belwyn.ActionPlatformer.Game.Character {
 
 
         private void Init() {
-            _onMovementChange = new Vector2Event();
-            _onGroundedChange = new BoolEvent();
-            _onJumpingChange = new BoolEvent();
-            _onAttackChange = new BoolEvent();
-
             DisableJumpBuffer();
         }
 
@@ -131,16 +130,22 @@ namespace Belwyn.ActionPlatformer.Game.Character {
                 _currentJumpBuffer += Time.deltaTime;
             }
 
+            // Process dash
+            if (_isDashing) {
+                _currentDashTime += Time.deltaTime;
+            }
+
             // Visuals
             UpdateVisuals();
         }
 
 
         private void FixedUpdate() {
+
             // Move-Related Logic
             VerticalMovement();
 
-            HorizontalMovement();            
+            HorizontalMovement();
         }
 
 
@@ -148,9 +153,16 @@ namespace Belwyn.ActionPlatformer.Game.Character {
 
         ///// Movement logic
 
-        private void HorizontalMovement() {   
-            if (_isMoving) {
-                _rb.velocity = new Vector2(Mathf.Sign(_move.x) * moveSpeed, velY);
+        private void HorizontalMovement() {
+            // Dash
+            _isDashing = (_isDashing && (_currentDashTime <= dashTime)) || (_isDashing && !grounded);
+            if (!_isDashing) {
+                _currentDashTime = 0f;
+            }
+
+            // Movement
+            if (_isMoving || _isDashing) {
+                _rb.velocity = new Vector2((_isRight ? 1f : -1f) * moveSpeed * (_isDashing ? dashFactor : 1f), velY);
                 //_rb.AddForce(new Vector2(Mathf.Sign(_move.x) * moveSpeed /* Time.deltaTime*/, 0));
             }
             else {
@@ -248,6 +260,7 @@ namespace Belwyn.ActionPlatformer.Game.Character {
         
         private void UpdateVisuals() {
             _onMovementChange.Invoke(_rb.velocity);
+            _onDashChange.Invoke(_isDashing);
             _onGroundedChange.Invoke(grounded);
             _onJumpingChange.Invoke(_isJumping);
         }
@@ -260,7 +273,9 @@ namespace Belwyn.ActionPlatformer.Game.Character {
 
         public void Move(Vector2 move) {
             _isMoving = move.x != 0;
-            _isRight = move.x > 0;
+            if (move.x != 0) {
+                _isRight = move.x > 0;
+            }
             _move = move;
         }
 
@@ -275,6 +290,10 @@ namespace Belwyn.ActionPlatformer.Game.Character {
             }
         }
 
+
+        public void Dash(bool dash) {
+            _isDashing = dash;
+        }
 
 
 

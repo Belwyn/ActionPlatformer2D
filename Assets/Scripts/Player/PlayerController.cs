@@ -30,6 +30,15 @@ namespace Belwyn.ActionPlatformer.Game.Player {
                 _charController.Jump(jumping);
             }
         }
+        
+
+        public void OnDash(InputAction.CallbackContext context) {
+            if (context.started || context.canceled || context.performed) {
+                bool dashing = context.ReadValueAsButton();
+                _charController.Dash(dashing);
+            }
+        }
+
 
         public void OnAttack(InputAction.CallbackContext context) {
             if (context.started)

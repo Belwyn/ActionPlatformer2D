@@ -43,6 +43,14 @@ namespace Belwyn.ActionPlatformer.Input
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Dash"",
+                    ""type"": ""Button"",
+                    ""id"": ""40278fe7-9261-44a0-851a-8dbbb2a2019b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -113,6 +121,17 @@ namespace Belwyn.ActionPlatformer.Input
                     ""isPartOfComposite"": false
                 },
                 {
+                    ""name"": """",
+                    ""id"": ""e8c696f5-07f1-4e03-a885-1143b2c95620"",
+                    ""path"": ""<Gamepad>/dpad"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
                     ""name"": ""2D Vector"",
                     ""id"": ""d91a3ff1-63cd-490b-8e18-26c0a09ce79b"",
                     ""path"": ""2DVector"",
@@ -166,6 +185,28 @@ namespace Belwyn.ActionPlatformer.Input
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""eb7a72e9-5dd5-40b2-b08c-a1d884922117"",
+                    ""path"": ""<Keyboard>/numpad9"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2e80c3e1-ab21-4e02-93ae-ec6134ba5a11"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -177,6 +218,7 @@ namespace Belwyn.ActionPlatformer.Input
             m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
             m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
             m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
+            m_Player_Dash = m_Player.FindAction("Dash", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -229,6 +271,7 @@ namespace Belwyn.ActionPlatformer.Input
         private readonly InputAction m_Player_Move;
         private readonly InputAction m_Player_Jump;
         private readonly InputAction m_Player_Attack;
+        private readonly InputAction m_Player_Dash;
         public struct PlayerActions
         {
             private @MainInput m_Wrapper;
@@ -236,6 +279,7 @@ namespace Belwyn.ActionPlatformer.Input
             public InputAction @Move => m_Wrapper.m_Player_Move;
             public InputAction @Jump => m_Wrapper.m_Player_Jump;
             public InputAction @Attack => m_Wrapper.m_Player_Attack;
+            public InputAction @Dash => m_Wrapper.m_Player_Dash;
             public InputActionMap Get() { return m_Wrapper.m_Player; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -254,6 +298,9 @@ namespace Belwyn.ActionPlatformer.Input
                     @Attack.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAttack;
                     @Attack.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAttack;
                     @Attack.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAttack;
+                    @Dash.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDash;
+                    @Dash.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDash;
+                    @Dash.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDash;
                 }
                 m_Wrapper.m_PlayerActionsCallbackInterface = instance;
                 if (instance != null)
@@ -267,6 +314,9 @@ namespace Belwyn.ActionPlatformer.Input
                     @Attack.started += instance.OnAttack;
                     @Attack.performed += instance.OnAttack;
                     @Attack.canceled += instance.OnAttack;
+                    @Dash.started += instance.OnDash;
+                    @Dash.performed += instance.OnDash;
+                    @Dash.canceled += instance.OnDash;
                 }
             }
         }
@@ -276,6 +326,7 @@ namespace Belwyn.ActionPlatformer.Input
             void OnMove(InputAction.CallbackContext context);
             void OnJump(InputAction.CallbackContext context);
             void OnAttack(InputAction.CallbackContext context);
+            void OnDash(InputAction.CallbackContext context);
         }
     }
 }

@@ -316,6 +316,21 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: f7a1e1c6-6b56-4de3-8313-e6415abbbbfb
     m_ActionName: Player/Attack[/Keyboard/numpad8]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1835013795619369132}
+        m_MethodName: OnDash
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 40278fe7-9261-44a0-851a-8dbbb2a2019b
+    m_ActionName: Player/Dash[/Keyboard/9]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -351,6 +366,8 @@ MonoBehaviour:
   _groundDetector: {fileID: 6446439801947262537}
   moveSpeed: 7
   jumpCount: 2
+  dashFactor: 2
+  dashTime: 0.5
   jumpBufferTime: 0.1
   coyoteTime: 0.1
   jumpSpeed: 14
@@ -368,6 +385,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   _onAttackChange:
+    m_PersistentCalls:
+      m_Calls: []
+  _onDashChange:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &3784916506150695492

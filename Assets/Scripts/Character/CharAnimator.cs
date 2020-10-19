@@ -11,20 +11,11 @@ namespace Belwyn.ActionPlatformer.Game.Character {
         private const string JUMP_ASCENDING = "Jump_Ascending";
         private const string GROUNDED       = "Grounded";
         private const string WALKING        = "Walking";
+        private const string DASHING        = "Dashing";
 
 
         [SerializeField]
         private Animator _animator;
-
-        
-
-
-
-
-
-        public void Attack() {
-            _animator.SetTrigger(ATTACK);
-        }
 
 
         public void Jump(bool value) {
@@ -46,7 +37,15 @@ namespace Belwyn.ActionPlatformer.Game.Character {
             _animator.SetBool(WALKING, value);
         }
 
+        public void Dash(bool dashing) {
+            _animator.SetBool(DASHING, dashing);
+        }
 
+
+        // TODO
+        public void Attack() {
+            _animator.SetTrigger(ATTACK);
+        }
     }
 
 }
