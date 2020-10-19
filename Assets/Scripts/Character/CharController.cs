@@ -292,7 +292,7 @@ namespace Belwyn.ActionPlatformer.Game.Character {
 
 
         public void Dash(bool dash) {
-            _isDashing = dash;
+            _isDashing = grounded ? dash : false;
         }
 
 
