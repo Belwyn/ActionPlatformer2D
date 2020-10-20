@@ -365,11 +365,11 @@ MonoBehaviour:
   _rb: {fileID: 1797124096167417722}
   _groundDetector: {fileID: 6446439801947262537}
   moveSpeed: 7
-  jumpCount: 2
+  jumpCount: 1
   dashFactor: 2.5
   dashTime: 0.3
   dashCount: 1
-  jumpBufferTime: 0.1
+  jumpBufferTime: 0.2
   coyoteTime: 0.1
   jumpSpeed: 14
   maxFallSpeed: 16

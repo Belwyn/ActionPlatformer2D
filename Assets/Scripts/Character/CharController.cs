@@ -230,7 +230,6 @@ namespace Belwyn.ActionPlatformer.Game.Character {
 
 
         private void VerticalMovement() {
-
             // Jump and fall
             HandleJumping();
 
@@ -254,7 +253,6 @@ namespace Belwyn.ActionPlatformer.Game.Character {
 
 
         private void HandleFalling() {
-
             // Fall speed tweak
             if (_aerialDash) {
                 _rb.gravityScale = 0f;
@@ -275,18 +273,21 @@ namespace Belwyn.ActionPlatformer.Game.Character {
             if (_rb.velocity.y < -1 * maxFallSpeed) {
                 _rb.velocity = new Vector2(_rb.velocity.x, -1 * maxFallSpeed);
             }
-
         }
 
 
 
         private void JumpAction() {
+            // If aerial withouth jumping and not coyote time, reduce one jump
+            if (!grounded && _currentJumpCount == 0 && _currentCoyote > coyoteTime) {
+                _currentJumpCount++;
+            }
+
             _rb.velocity = new Vector2(_rb.velocity.x, jumpSpeed);
             //_rb.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
 
             isJumping = true;
             _currentJumpCount++;
-
             DisableJumpBuffer();
         }
 
@@ -336,10 +337,12 @@ namespace Belwyn.ActionPlatformer.Game.Character {
 
         public void Jump(bool jump) {
             _tryJump = jump;
+
             // Jumping buffers
             if (_tryJump) {
                 BeginJumpBuffer();
-            } else {
+            }
+            else {
                 DisableJumpBuffer();
             }
         }
