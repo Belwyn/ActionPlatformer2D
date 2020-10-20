@@ -49,8 +49,10 @@ namespace Belwyn.ActionPlatformer.Game.Character {
 
         private bool _isMoving;
         private bool _isRight;
+        private bool _tryDashing;
         private bool _isDashing;
         private float _currentDashTime = 0f;
+        private bool _aerialDash;
 
         private bool _tryJump;
         private bool _isJumping;
@@ -92,12 +94,15 @@ namespace Belwyn.ActionPlatformer.Game.Character {
         private BoolEvent _onAttackChange;
         [SerializeField]
         private BoolEvent _onDashChange;
+        [SerializeField]
+        private BoolEvent _onAirDashChange;
         
         public Vector2Event onMovementChange => _onMovementChange;
         public BoolEvent onGroundedChange => _onGroundedChange;
         public BoolEvent onJumpingChange => _onJumpingChange;
         public BoolEvent onAttackChange => _onAttackChange;
         public BoolEvent onDashChange => _onDashChange;
+        public BoolEvent onAirDashChange => _onAirDashChange;
 
 
         private void Awake() {
@@ -141,6 +146,10 @@ namespace Belwyn.ActionPlatformer.Game.Character {
 
 
         private void FixedUpdate() {
+            // Update movement-related character state
+            VerticalStateUpdate();
+
+            HorizontalStateUpdate();
 
             // Move-Related Logic
             VerticalMovement();
@@ -150,19 +159,42 @@ namespace Belwyn.ActionPlatformer.Game.Character {
 
 
 
+        ///// Movement State update     
+        private void VerticalStateUpdate() {
+            // Grounded
+            grounded = _isGroundDetected && _rb.velocity.y <= .00001f;
 
-        ///// Movement logic
+            if (grounded) {
+                _aerialDash = false;
+                _currentJumpCount = 0;
+            }
+        }
 
-        private void HorizontalMovement() {
-            // Dash
-            _isDashing = (_isDashing && (_currentDashTime <= dashTime)) || (_isDashing && !grounded);
-            if (!_isDashing) {
-                _currentDashTime = 0f;
+        private void HorizontalStateUpdate() {
+            // Moving & facing
+            _isMoving = _move.x < -.00001f || _move.x > .00001f;
+            if (_move.x != 0) {
+                _isRight = _move.x > 0;
             }
 
+            //Dashing
+            _aerialDash = _tryDashing && (_aerialDash || (!_isDashing && _tryDashing && !grounded));
+
+            _isDashing = _tryDashing && ((_currentDashTime <= dashTime) || (_isDashing && !grounded && !_aerialDash));
+            if (!_isDashing) {
+                _aerialDash = false;
+                _currentDashTime = 0f;
+                _tryDashing = false;
+            }
+        }
+
+
+
+        ///// Movement logic
+        private void HorizontalMovement() {
             // Movement
             if (_isMoving || _isDashing) {
-                _rb.velocity = new Vector2((_isRight ? 1f : -1f) * moveSpeed * (_isDashing ? dashFactor : 1f), velY);
+                _rb.velocity = new Vector2((_isRight ? 1f : -1f) * moveSpeed * (_isDashing ? dashFactor : 1f), _aerialDash ? 0f : velY);
                 //_rb.AddForce(new Vector2(Mathf.Sign(_move.x) * moveSpeed /* Time.deltaTime*/, 0));
             }
             else {
@@ -172,12 +204,6 @@ namespace Belwyn.ActionPlatformer.Game.Character {
 
 
         private void VerticalMovement() {
-            // Ground logic
-            grounded = _isGroundDetected && _rb.velocity.y <= .00001f;
-
-            if (grounded) {
-                _currentJumpCount = 0;
-            }
 
             // Jump and fall
             HandleJumping();
@@ -189,7 +215,7 @@ namespace Belwyn.ActionPlatformer.Game.Character {
 
         private void HandleJumping() {
             // Jump count limit
-            if (_currentJumpCount < jumpCount) {
+            if (_currentJumpCount < jumpCount && !_isJumping) {
 
                 UpdateCoyote();
 
@@ -204,13 +230,18 @@ namespace Belwyn.ActionPlatformer.Game.Character {
         private void HandleFalling() {
 
             // Fall speed tweak
-            if (velY < -.00001f) {
+            if (_aerialDash) {
+                _rb.gravityScale = 0f;
+            }
+            else if (velY < -.00001f) {
                 _rb.gravityScale = fallFactor;
                 isJumping = false;
-            } else if (velY > 0 && !_tryJump) {
+            }
+            else if (velY > 0 && !_tryJump) {
                 _rb.gravityScale = breakJumpFactor;
                 isJumping = false;
-            } else {
+            }
+            else {
                 _rb.gravityScale = defaultGravity;
             }
 
@@ -263,6 +294,7 @@ namespace Belwyn.ActionPlatformer.Game.Character {
             _onDashChange.Invoke(_isDashing);
             _onGroundedChange.Invoke(grounded);
             _onJumpingChange.Invoke(_isJumping);
+            _onAirDashChange.Invoke(_aerialDash);
         }
 
 
@@ -272,27 +304,23 @@ namespace Belwyn.ActionPlatformer.Game.Character {
         ///// Control
 
         public void Move(Vector2 move) {
-            _isMoving = move.x != 0;
-            if (move.x != 0) {
-                _isRight = move.x > 0;
-            }
             _move = move;
         }
 
 
         public void Jump(bool jump) {
             _tryJump = jump;
-            if (jump) {
+            // Jumping buffers
+            if (_tryJump) {
                 BeginJumpBuffer();
-            } 
-            else {
+            } else {
                 DisableJumpBuffer();
             }
         }
 
 
         public void Dash(bool dash) {
-            _isDashing = grounded ? dash : false;
+            _tryDashing = dash;
         }
 
 
@@ -301,6 +329,21 @@ namespace Belwyn.ActionPlatformer.Game.Character {
         public void Attack() {
             _onAttackChange.Invoke(true);
         }
+
+
+#if TEST_BUILD
+        private void OnGUI() {
+            GUILayout.Label($"Velocity: {_rb.velocity}");
+            GUILayout.FlexibleSpace();
+            GUILayout.Label($"TryDashig: {_tryDashing}");
+            GUILayout.Label($"IsDashing: {_isDashing}");
+            GUILayout.Label($"DashTime:  {_currentDashTime}");
+            GUILayout.FlexibleSpace();
+            GUILayout.Label($"Grounded {grounded}");
+            GUILayout.Label($"Jumping {_isJumping}");
+        }
+#endif
+
 
     }
 

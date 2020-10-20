@@ -13,6 +13,7 @@ namespace Belwyn.ActionPlatformer.Game.Character {
         BoolEvent onJumpingChange { get; }
         BoolEvent onAttackChange { get; }    
         BoolEvent onDashChange { get; }
+        BoolEvent onAirDashChange { get; }
     }
 
 }

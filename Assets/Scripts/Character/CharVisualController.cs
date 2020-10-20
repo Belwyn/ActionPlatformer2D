@@ -24,7 +24,7 @@ namespace Belwyn.ActionPlatformer.Game.Character {
             _charEv.onJumpingChange.AddListener(OnJumpingChange);
             _charEv.onAttackChange.AddListener(OnAttackChange);
             _charEv.onDashChange.AddListener(OnDashingChange);
-
+            _charEv.onAirDashChange.AddListener(onAirDashingChange);
         }
 
 
@@ -53,6 +53,10 @@ namespace Belwyn.ActionPlatformer.Game.Character {
 
         private void OnDashingChange(bool dashing) {
             _animator.Dash(dashing);
+        }
+
+        private void onAirDashingChange(bool airDashing) {
+            _animator.AirDash(airDashing);
         }
 
         private void OnAttackChange(bool attack) {
