@@ -32,13 +32,13 @@ namespace Belwyn.ActionPlatformer.Game.Character {
 
         private void CheckFacingDirection(Vector2 move) {
             //TODO improve
-            _spriteRenderer.flipX = move.x > 0 || (move.x >= 0 && _spriteRenderer.flipX);
+            _spriteRenderer.flipX = move.x > .00001f || (move.x >= -.00001f && _spriteRenderer.flipX);
         }
 
 
 
         private void OnMovementChange(Vector2 movement) {
-            _animator.Walking(movement.x != 0);
+            _animator.Walking(movement.x < -.00001f || movement.x > .00001f);
             _animator.JumpAscension(movement.y > 0);
             CheckFacingDirection(movement);
         }

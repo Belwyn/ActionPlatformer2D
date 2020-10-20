@@ -172,7 +172,7 @@ namespace Belwyn.ActionPlatformer.Game.Character {
             // Moving & facing
             _isMoving = _move.x < -.00001f || _move.x > .00001f;
             bool wasRight = _isRight;
-            if (_move.x != 0) {
+            if (_move.x < -.00001f || _move.x > .00001f) {
                 _isRight = _move.x > 0;
             }
             _changedDirection = wasRight != _isRight;
@@ -362,7 +362,7 @@ namespace Belwyn.ActionPlatformer.Game.Character {
 
 #if TEST_BUILD
         private void OnGUI() {
-            GUILayout.Label($"Velocity: {_rb.velocity}");
+            GUILayout.Label($"Velocity: {_rb.velocity.ToString("E")}");
             GUILayout.FlexibleSpace();
             GUILayout.Label($"TryDashig: {_tryDashing}");
             GUILayout.Label($"IsDashing: {_isDashing}");
