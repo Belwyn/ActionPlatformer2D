@@ -368,6 +368,7 @@ MonoBehaviour:
   jumpCount: 2
   dashFactor: 2.5
   dashTime: 0.3
+  dashCount: 1
   jumpBufferTime: 0.1
   coyoteTime: 0.1
   jumpSpeed: 14
@@ -388,6 +389,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   _onDashChange:
+    m_PersistentCalls:
+      m_Calls: []
+  _onAirDashChange:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &3784916506150695492
@@ -446,7 +450,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.9, y: 0.3}
+  m_Size: {x: 0.94, y: 0.3}
   m_EdgeRadius: 0
 --- !u!114 &6446439801947262537
 MonoBehaviour:

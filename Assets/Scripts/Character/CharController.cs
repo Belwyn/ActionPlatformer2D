@@ -25,6 +25,7 @@ namespace Belwyn.ActionPlatformer.Game.Character {
         public int jumpCount = 1;
         public float dashFactor = 2f;
         public float dashTime = 1f;
+        public int dashCount = 1;
 
         [Space()]
         public float jumpBufferTime = 0.1f;
@@ -40,19 +41,15 @@ namespace Belwyn.ActionPlatformer.Game.Character {
 
 
         private Vector2 _move;
-        private Vector2 move { 
-            set {
-                _move = value;
-                _onMovementChange.Invoke(value);
-            }
-        }
 
         private bool _isMoving;
         private bool _isRight;
+        private bool _changedDirection;
         private bool _tryDashing;
         private bool _isDashing;
         private float _currentDashTime = 0f;
         private bool _aerialDash;
+        private int _currentDashCount;
 
         private bool _tryJump;
         private bool _isJumping;
@@ -166,6 +163,7 @@ namespace Belwyn.ActionPlatformer.Game.Character {
 
             if (grounded) {
                 _aerialDash = false;
+                _currentDashCount = 0;
                 _currentJumpCount = 0;
             }
         }
@@ -173,34 +171,62 @@ namespace Belwyn.ActionPlatformer.Game.Character {
         private void HorizontalStateUpdate() {
             // Moving & facing
             _isMoving = _move.x < -.00001f || _move.x > .00001f;
+            bool wasRight = _isRight;
             if (_move.x != 0) {
                 _isRight = _move.x > 0;
             }
-
-            //Dashing
-            _aerialDash = _tryDashing && (_aerialDash || (!_isDashing && _tryDashing && !grounded));
-
-            _isDashing = _tryDashing && ((_currentDashTime <= dashTime) || (_isDashing && !grounded && !_aerialDash));
-            if (!_isDashing) {
-                _aerialDash = false;
-                _currentDashTime = 0f;
-                _tryDashing = false;
-            }
+            _changedDirection = wasRight != _isRight;
         }
 
 
 
         ///// Movement logic
         private void HorizontalMovement() {
+
+            // Dashing
+            HandleDashing();
+
             // Movement
             if (_isMoving || _isDashing) {
-                _rb.velocity = new Vector2((_isRight ? 1f : -1f) * moveSpeed * (_isDashing ? dashFactor : 1f), _aerialDash ? 0f : velY);
+                float right = _isRight ? 1f : -1f;
+                float dashing = _isDashing ? dashFactor : 1f;
+                float aerialDash = _aerialDash ? 0f : velY;
+                _rb.velocity = new Vector2(right * moveSpeed * dashing, aerialDash);
                 //_rb.AddForce(new Vector2(Mathf.Sign(_move.x) * moveSpeed /* Time.deltaTime*/, 0));
             }
             else {
                 _rb.velocity = new Vector2(0, velY);
             }
         }
+
+
+        private void HandleDashing() {
+            if (!_tryDashing || _changedDirection) {
+                _isDashing = false;
+            }
+            else {
+                // Dash count limit
+                if (_isDashing || _currentDashCount < dashCount) {
+
+                    if (!_isDashing && _tryDashing) {
+                        _isDashing = true;
+                        _aerialDash = !grounded;
+                        _currentDashCount++;
+                    }
+                    else {
+                        _isDashing = _tryDashing && (_currentDashTime <= dashTime || (_isDashing && !grounded && !_aerialDash));
+                    }
+                }
+            }
+
+            if (!_isDashing) {
+                _aerialDash = false;
+                _currentDashTime = 0f;
+                _tryDashing = false;
+            }
+
+        }
+
 
 
         private void VerticalMovement() {
@@ -337,6 +363,8 @@ namespace Belwyn.ActionPlatformer.Game.Character {
             GUILayout.FlexibleSpace();
             GUILayout.Label($"TryDashig: {_tryDashing}");
             GUILayout.Label($"IsDashing: {_isDashing}");
+            GUILayout.Label($"AirDash:   {_aerialDash}");
+            GUILayout.Label($"DashCount: {_currentDashCount}");
             GUILayout.Label($"DashTime:  {_currentDashTime}");
             GUILayout.FlexibleSpace();
             GUILayout.Label($"Grounded {grounded}");
