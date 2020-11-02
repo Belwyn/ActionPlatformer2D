@@ -112,7 +112,7 @@ namespace Belwyn.ActionPlatformer.Input
                 {
                     ""name"": """",
                     ""id"": ""d4663964-2026-40aa-84e5-845bebf35668"",
-                    ""path"": ""<Gamepad>/leftStick/left"",
+                    ""path"": ""<Gamepad>/leftStick"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

@@ -17,7 +17,7 @@ namespace Belwyn.ActionPlatformer.Game.Character {
         private Rigidbody2D _rb;
 
         [SerializeField]
-        private GroundDetector2D _groundDetector;
+        private SurfaceDetector2D _groundDetector;
 
 
         [Header("Parameters")]
@@ -38,7 +38,9 @@ namespace Belwyn.ActionPlatformer.Game.Character {
         public float breakJumpFactor = 1f;
         public float fallFactor  = 1f;
 
-
+        [Space()]
+        public PhysicsMaterial2D stopMaterial;
+        public PhysicsMaterial2D movementMaterial;
 
         private Vector2 _move;
 
@@ -119,7 +121,7 @@ namespace Belwyn.ActionPlatformer.Game.Character {
 
         private void RegisterListeners() {
             // Listen to groundDetector
-            _groundDetector.onGroundChange.AddListener(b => _isGroundDetected = b);
+            _groundDetector.onSurfacedChange.AddListener(b => grounded = b);
         }
 
 
@@ -148,6 +150,9 @@ namespace Belwyn.ActionPlatformer.Game.Character {
 
             HorizontalStateUpdate();
 
+            // Prepare
+            PreparePhysics();
+
             // Move-Related Logic
             VerticalMovement();
 
@@ -159,9 +164,9 @@ namespace Belwyn.ActionPlatformer.Game.Character {
         ///// Movement State update     
         private void VerticalStateUpdate() {
             // Grounded
-            grounded = _isGroundDetected && _rb.velocity.y <= .00001f;
+            //grounded = _isGroundDetected;// && _rb.velocity.y <= .00001f;
 
-            if (grounded) {
+            if (grounded && !_isJumping) {
                 _aerialDash = false;
                 _currentDashCount = 0;
                 _currentJumpCount = 0;
@@ -177,6 +182,19 @@ namespace Belwyn.ActionPlatformer.Game.Character {
             }
             _changedDirection = wasRight != _isRight;
         }
+
+
+
+        ///// Assign physics materials for movement
+        private void PreparePhysics() {
+            // TODO _isDashing is changed after this, it's potentially one frame behing if no fixedUpdates remain in current frame
+            if (_isGrounded && !_isJumping && !_isMoving && !_isDashing) {
+                _rb.sharedMaterial = stopMaterial;
+            } else {
+                _rb.sharedMaterial = movementMaterial;
+            }
+        }
+
 
 
 

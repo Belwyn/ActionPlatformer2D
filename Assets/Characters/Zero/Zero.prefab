@@ -243,7 +243,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1.2}
+  m_Size: {x: 1, y: 1.14}
   m_EdgeRadius: 0
 --- !u!114 &1835013795619369131
 MonoBehaviour:
@@ -376,6 +376,8 @@ MonoBehaviour:
   defaultGravity: 3
   breakJumpFactor: 10
   fallFactor: 12
+  stopMaterial: {fileID: 6200000, guid: d1fe5826016ec3d40a5c1b558a5ccbff, type: 2}
+  movementMaterial: {fileID: 6200000, guid: d15734129c023ea47853f3f54d762c43, type: 2}
   _onMovementChange:
     m_PersistentCalls:
       m_Calls: []
@@ -436,10 +438,10 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.125, y: -0.05}
+  m_Offset: {x: 0.125, y: 0.15}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -450,7 +452,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.94, y: 0.3}
+  m_Size: {x: 1, y: 0.1}
   m_EdgeRadius: 0
 --- !u!114 &6446439801947262537
 MonoBehaviour:
@@ -465,6 +467,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _collider: {fileID: 3859105868173044793}
+  _normalTarget: {x: 0, y: 1}
+  _targetAngleTolerance: 45
   _onGroundChange:
     m_PersistentCalls:
       m_Calls: []
