@@ -309,8 +309,7 @@ namespace Belwyn.ActionPlatformer.Game.Character {
             if (_currentJumpCount < jumpCount && !_isJumping || _isClinging) {
 
                 UpdateCoyote();
-
-                if ((_currentJumpCount > 0 || _currentCoyote <= coyoteTime) && _currentJumpBuffer <= jumpBufferTime) {
+                if ((_currentJumpCount > 0 || _currentCoyote <= coyoteTime || _isClinging) && _currentJumpBuffer <= jumpBufferTime) {
                     JumpAction();
                 }
             }
