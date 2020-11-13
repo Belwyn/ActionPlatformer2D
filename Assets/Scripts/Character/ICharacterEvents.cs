@@ -9,6 +9,7 @@ namespace Belwyn.ActionPlatformer.Game.Character {
     public interface ICharacterEvents {
 
         Vector2Event onMovementChange { get; }
+        BoolEvent onFacingRightChange { get; }
         BoolEvent onGroundedChange { get; }
         BoolEvent onJumpingChange { get; }
         BoolEvent onAttackChange { get; }    

@@ -114,6 +114,8 @@ namespace Belwyn.ActionPlatformer.Game.Character {
         [SerializeField]
         private Vector2Event _onMovementChange;
         [SerializeField]
+        private BoolEvent _onFacingRightChange;
+        [SerializeField]
         private BoolEvent _onGroundedChange;
         [SerializeField]
         private BoolEvent _onJumpingChange;
@@ -127,6 +129,7 @@ namespace Belwyn.ActionPlatformer.Game.Character {
         private BoolEvent _onClingChange;
 
         public Vector2Event onMovementChange => _onMovementChange;
+        public BoolEvent onFacingRightChange => _onFacingRightChange;
         public BoolEvent onGroundedChange => _onGroundedChange;
         public BoolEvent onJumpingChange => _onJumpingChange;
         public BoolEvent onAttackChange => _onAttackChange;
@@ -216,11 +219,15 @@ namespace Belwyn.ActionPlatformer.Game.Character {
             _changedDirection = wasRight != _isRight;
 
             _isClinging = !_isGrounded && velY <= 0.0001f && isMovingAgainstWall();
+            if (_isClinging) {
+                _isDashing = false;
+                _aerialDash = false;
+            }
         }
 
 
         private bool isMovingAgainstWall() {
-            bool againstWall = (_isMoving || _isDashing) && ( (_isRight && againstRightWall) || (!_isRight && againstLeftWall) );
+            bool againstWall = (_isMoving) && ( (_isRight && againstRightWall) || (!_isRight && againstLeftWall) );
             return againstWall;
         }
 
@@ -260,7 +267,7 @@ namespace Belwyn.ActionPlatformer.Game.Character {
 
 
         private void HandleDashing() {
-            if (!_tryDashing || _changedDirection) {
+            if (!_tryDashing || _changedDirection || _isClinging) {
                 _isDashing = false;
             }
             else {
@@ -378,6 +385,8 @@ namespace Belwyn.ActionPlatformer.Game.Character {
         
         private void UpdateVisuals() {
             _onMovementChange.Invoke(_rb.velocity);
+            //if (_changedDirection) 
+                _onFacingRightChange.Invoke(_isRight);
             _onDashChange.Invoke(_isDashing);
             _onGroundedChange.Invoke(grounded);
             _onJumpingChange.Invoke(_isJumping);

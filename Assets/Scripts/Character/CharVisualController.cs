@@ -20,6 +20,7 @@ namespace Belwyn.ActionPlatformer.Game.Character {
         public void Setup(ICharacterEvents _charEv) {
 
             _charEv.onMovementChange.AddListener(OnMovementChange);
+            _charEv.onFacingRightChange.AddListener(OnFacingRightChange);
             _charEv.onGroundedChange.AddListener(OnGroundedChange);
             _charEv.onJumpingChange.AddListener(OnJumpingChange);
             _charEv.onAttackChange.AddListener(OnAttackChange);
@@ -31,17 +32,18 @@ namespace Belwyn.ActionPlatformer.Game.Character {
 
 
 
-        private void CheckFacingDirection(Vector2 move) {
+        private void FaceDirection(bool isRight) {
             //TODO improve
-            _spriteRenderer.flipX = move.x > .00001f || (move.x >= -.00001f && _spriteRenderer.flipX);
+            _spriteRenderer.flipX = isRight;
         }
-
-
 
         private void OnMovementChange(Vector2 movement) {
             _animator.Walking(movement.x < -.00001f || movement.x > .00001f);
             _animator.JumpAscension(movement.y > 0);
-            CheckFacingDirection(movement);
+        }
+
+        private void OnFacingRightChange(bool isRight) {
+            FaceDirection(isRight);
         }
 
         private void OnGroundedChange(bool grounded) {
