@@ -1,13 +1,15 @@
 ﻿using Belwyn.Utils;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 
 namespace Belwyn.ActionPlatformer.Game {
 
 
-    // Simple ground detection component
+    // Simple Surface detection component
+    // Uses a normal and a tolerance angle to detect if a contacted surface is a desired target
 
     [RequireComponent(typeof(Collider2D))]
     public class SurfaceDetector2D : MonoBehaviour {
@@ -28,52 +30,62 @@ namespace Belwyn.ActionPlatformer.Game {
         private BoolEvent _onSurfacedChange;
         public BoolEvent onSurfacedChange => _onSurfacedChange;
 
+        private Vector2 _currentNormal;
+        public Vector2 currentNormal => _currentNormal;
 
 
-        // Store or expose normal and/or angle event of the surface
+        // TODO Improve the data structure
+        // Contacts information
+        private Dictionary<Collider2D, Vector2> _collisions;
 
-
-
-
-        // Contact information
-        private Dictionary<Collider2D, ContactPoint2D[]> _collisions;
-
-        private int _contactsCount = 5;
 
 
         private void Awake() {
             if (_collider == null)
                 _collider = GetComponent<Collider2D>();
-            _collisions = new Dictionary<Collider2D, ContactPoint2D[]>();
+            _collisions = new Dictionary<Collider2D, Vector2>();
 
         }
 
 
 
-        private void Invoke() {
-            Invoke(_collisions.Keys.Count > 0);
+        private void InvokeSurfaced() {
+            InvokeSurfaced(_collisions.Keys.Count > 0);
         }
 
-        private void Invoke(bool value) {
+        private void InvokeSurfaced(bool value) {
             _onSurfacedChange.Invoke(value);
         }
 
 
 
+        private void CheckNormal() {
+            // TODO This shouldn't care, but it is wrongly done. Think about it
+            if (_collisions.Keys.Count > 0) {
+                Vector2 normal = _collisions[_collisions.Keys.First()];
+                _currentNormal = normal;
+            }
+            else {
+                _currentNormal = Vector2.zero;
+            }
+        }
+
 
         ///// Physics
 
         private void OnCollisionEnter2D(Collision2D collision) {
-            ContactPoint2D[] newContacts = new ContactPoint2D[_contactsCount];
+            // TODO Maybe don't create an array here. This may generate garbage
+            ContactPoint2D[] newContacts = new ContactPoint2D[collision.contactCount];
             collision.GetContacts(newContacts);
-
-            if (checkIfTarget(newContacts)) {
+            Vector2 normal;
+            if (checkIfTarget(newContacts, out normal)) {
                 if (!_collisions.ContainsKey(collision.collider))
-                    _collisions.Add(collision.collider, newContacts);
+                    _collisions.Add(collision.collider, normal);
                 else
-                    _collisions[collision.collider] = newContacts;                
+                    _collisions[collision.collider] = normal;
 
-                Invoke();
+                CheckNormal();
+                InvokeSurfaced();
             }
         }
 
@@ -84,26 +96,32 @@ namespace Belwyn.ActionPlatformer.Game {
                 _collisions.Remove(collision.collider);
             }
 
-            Invoke();
+            CheckNormal();
+            InvokeSurfaced();
         }
 
 
 
         ///// Detection
         // Search in contactPoints for a normal whose angle with the target normal is smaller than tolerance
-        private bool checkIfTarget(ContactPoint2D[] contacts) {
-            bool isGround = false;
+        private bool checkIfTarget(ContactPoint2D[] contacts, out Vector2 normal) {
+            bool isTargetSurface = false;
             int i = 0;
-            while (!isGround && i < contacts.Length) {
-                Vector2 normal = contacts[i].normal;
+            normal = Vector2.zero;
+
+            while (!isTargetSurface && i < contacts.Length) {
+                Vector2 currentnormal = contacts[i].normal;
                 // If it's valid contactPoint
-                if (normal != Vector2.zero) {
+                if (currentnormal != Vector2.zero) {
+                    // TODO Right now it asumes always the same normal, if any other shape than Box this may be wrong
+                    normal = currentnormal;
                     float angle = Vector2.Angle(_normalTarget, normal);
-                    isGround = angle <= _targetAngleTolerance;
+                    isTargetSurface = angle <= _targetAngleTolerance;
                 }
                 i++;
             }
-            return isGround;
+
+            return isTargetSurface;
         }
 
     }

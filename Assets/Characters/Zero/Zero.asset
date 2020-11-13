@@ -404,3 +404,30 @@ MonoBehaviour:
       m_Hash: -100641005
       m_Sprite: {fileID: -2060213754352998983, guid: 8fdf4ae12b4b4f7459f586db17e18018,
         type: 3}
+  - m_Name: Cling
+    m_Hash: -953163966
+    m_CategoryList:
+    - m_Name: 0
+      m_Hash: -186917087
+      m_Sprite: {fileID: 6637391832495316724, guid: 2993ed46f577f4843953171944f79a5d,
+        type: 3}
+    - m_Name: 1
+      m_Hash: -2082672713
+      m_Sprite: {fileID: -5599620656873836218, guid: 2993ed46f577f4843953171944f79a5d,
+        type: 3}
+    - m_Name: 2
+      m_Hash: 450215437
+      m_Sprite: {fileID: -1647112615695416170, guid: 2993ed46f577f4843953171944f79a5d,
+        type: 3}
+    - m_Name: 3
+      m_Hash: 1842515611
+      m_Sprite: {fileID: 7217253969732308033, guid: 2993ed46f577f4843953171944f79a5d,
+        type: 3}
+    - m_Name: 4
+      m_Hash: -206169288
+      m_Sprite: {fileID: -9064513783957821836, guid: 2993ed46f577f4843953171944f79a5d,
+        type: 3}
+    - m_Name: 5
+      m_Hash: -2068763730
+      m_Sprite: {fileID: 8232734198860454856, guid: 2993ed46f577f4843953171944f79a5d,
+        type: 3}

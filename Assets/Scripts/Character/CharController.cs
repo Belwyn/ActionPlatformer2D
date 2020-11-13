@@ -18,6 +18,10 @@ namespace Belwyn.ActionPlatformer.Game.Character {
 
         [SerializeField]
         private SurfaceDetector2D _groundDetector;
+        [SerializeField]
+        private SurfaceDetector2D _leftWallDetector;
+        [SerializeField]
+        private SurfaceDetector2D _rightWallDetector;
 
 
         [Header("Parameters")]
@@ -65,7 +69,9 @@ namespace Belwyn.ActionPlatformer.Game.Character {
         private float _currentJumpBuffer;
         private float _currentCoyote;
 
-        private bool _isGroundDetected;
+        private bool _isClinging;
+
+        //private bool _isGroundDetected;
         private bool _isGrounded = false;
         private bool grounded { 
             get { return _isGrounded; }
@@ -73,6 +79,28 @@ namespace Belwyn.ActionPlatformer.Game.Character {
                 if(value != _isGrounded) {
                     _isGrounded = value;
                     onGroundedChange.Invoke(value);
+                }
+            }
+        }
+
+        private bool _againstLeftWall;
+        private bool againstLeftWall {
+            get { return _againstLeftWall; }
+            set {
+                if (value != _againstLeftWall) {
+                    _againstLeftWall = value;
+                    /// EVENT ?
+                }
+            }
+        }
+
+        private bool _againstRightWall;
+        private bool againstRightWall {
+            get { return _againstRightWall; }
+            set {
+                if (value != _againstRightWall) {
+                    _againstRightWall = value;
+                    /// EVENT ?
                 }
             }
         }
@@ -95,13 +123,16 @@ namespace Belwyn.ActionPlatformer.Game.Character {
         private BoolEvent _onDashChange;
         [SerializeField]
         private BoolEvent _onAirDashChange;
-        
+        [SerializeField]
+        private BoolEvent _onClingChange;
+
         public Vector2Event onMovementChange => _onMovementChange;
         public BoolEvent onGroundedChange => _onGroundedChange;
         public BoolEvent onJumpingChange => _onJumpingChange;
         public BoolEvent onAttackChange => _onAttackChange;
         public BoolEvent onDashChange => _onDashChange;
         public BoolEvent onAirDashChange => _onAirDashChange;
+        public BoolEvent onClingChange => _onClingChange;
 
 
         private void Awake() {
@@ -120,8 +151,10 @@ namespace Belwyn.ActionPlatformer.Game.Character {
         }
 
         private void RegisterListeners() {
-            // Listen to groundDetector
+            // Listen to surfaceDetectors
             _groundDetector.onSurfacedChange.AddListener(b => grounded = b);
+            _leftWallDetector.onSurfacedChange.AddListener(b => againstLeftWall = b);
+            _rightWallDetector.onSurfacedChange.AddListener(b => againstRightWall = b);
         }
 
 
@@ -181,8 +214,15 @@ namespace Belwyn.ActionPlatformer.Game.Character {
                 _isRight = _move.x > 0;
             }
             _changedDirection = wasRight != _isRight;
+
+            _isClinging = !_isGrounded && velY <= 0.0001f && isMovingAgainstWall();
         }
 
+
+        private bool isMovingAgainstWall() {
+            bool againstWall = (_isMoving || _isDashing) && ( (_isRight && againstRightWall) || (!_isRight && againstLeftWall) );
+            return againstWall;
+        }
 
 
         ///// Assign physics materials for movement
@@ -190,7 +230,8 @@ namespace Belwyn.ActionPlatformer.Game.Character {
             // TODO _isDashing is changed after this, it's potentially one frame behing if no fixedUpdates remain in current frame
             if (_isGrounded && !_isJumping && !_isMoving && !_isDashing) {
                 _rb.sharedMaterial = stopMaterial;
-            } else {
+            }
+            else {
                 _rb.sharedMaterial = movementMaterial;
             }
         }
@@ -205,7 +246,7 @@ namespace Belwyn.ActionPlatformer.Game.Character {
             HandleDashing();
 
             // Movement
-            if (_isMoving || _isDashing) {
+            if ((_isMoving || _isDashing) && !isMovingAgainstWall()) {
                 float right = _isRight ? 1f : -1f;
                 float dashing = _isDashing ? dashFactor : 1f;
                 float aerialDash = _aerialDash ? 0f : velY;
@@ -272,7 +313,8 @@ namespace Belwyn.ActionPlatformer.Game.Character {
 
         private void HandleFalling() {
             // Fall speed tweak
-            if (_aerialDash) {
+            if (_aerialDash || _isClinging) {
+                _rb.velocity = new Vector2(velx, 0f);
                 _rb.gravityScale = 0f;
             }
             else if (velY < -.00001f) {
@@ -340,6 +382,7 @@ namespace Belwyn.ActionPlatformer.Game.Character {
             _onGroundedChange.Invoke(grounded);
             _onJumpingChange.Invoke(_isJumping);
             _onAirDashChange.Invoke(_aerialDash);
+            _onClingChange.Invoke(_isClinging);
         }
 
 
@@ -381,6 +424,7 @@ namespace Belwyn.ActionPlatformer.Game.Character {
 #if TEST_BUILD
         private void OnGUI() {
             GUILayout.Label($"Velocity: {_rb.velocity.ToString("E")}");
+            GUILayout.Label($"IsRight: {_isRight}");
             GUILayout.FlexibleSpace();
             GUILayout.Label($"TryDashig: {_tryDashing}");
             GUILayout.Label($"IsDashing: {_isDashing}");
@@ -390,6 +434,9 @@ namespace Belwyn.ActionPlatformer.Game.Character {
             GUILayout.FlexibleSpace();
             GUILayout.Label($"Grounded {grounded}");
             GUILayout.Label($"Jumping {_isJumping}");
+            GUILayout.Label($"LeftWall {_againstLeftWall}");
+            GUILayout.Label($"RightWall {_againstRightWall}");
+            GUILayout.Label($"Clinging {_isClinging}");
         }
 #endif
 

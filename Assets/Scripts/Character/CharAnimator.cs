@@ -13,6 +13,7 @@ namespace Belwyn.ActionPlatformer.Game.Character {
         private const string WALKING        = "Walking";
         private const string DASHING        = "Dashing";
         private const string AIR_DASHING    = "Air_Dashing";
+        private const string CLINGING       = "Clinging";
 
 
         [SerializeField]
@@ -45,6 +46,11 @@ namespace Belwyn.ActionPlatformer.Game.Character {
         public void AirDash(bool airDashing) {
             _animator.SetBool(AIR_DASHING, airDashing);
         }
+
+        public void Cling(bool clinging) {
+            _animator.SetBool(CLINGING, clinging);
+        }
+
 
         // TODO
         public void Attack() {
