@@ -218,7 +218,7 @@ namespace Belwyn.ActionPlatformer.Game.Character {
             }
             _changedDirection = wasRight != _isRight;
 
-            _isClinging = !_isGrounded && velY <= 0.0001f && isMovingAgainstWall();
+            _isClinging = !_isGrounded && !_isJumping && velY <= 0.0001f && isMovingAgainstWall();
             if (_isClinging) {
                 _isDashing = false;
                 _aerialDash = false;
@@ -306,7 +306,7 @@ namespace Belwyn.ActionPlatformer.Game.Character {
 
         private void HandleJumping() {
             // Jump count limit
-            if (_currentJumpCount < jumpCount && !_isJumping) {
+            if (_currentJumpCount < jumpCount && !_isJumping || _isClinging) {
 
                 UpdateCoyote();
 
@@ -354,7 +354,17 @@ namespace Belwyn.ActionPlatformer.Game.Character {
             //_rb.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
 
             isJumping = true;
-            _currentJumpCount++;
+            // Wall jump is free
+            if (_isClinging) {
+                // TODO review this
+                _currentDashCount = 0;
+                _currentJumpCount = 1;
+            }
+            else {
+                _currentJumpCount++;
+            }
+
+            _isClinging = false;
             DisableJumpBuffer();
         }
 
