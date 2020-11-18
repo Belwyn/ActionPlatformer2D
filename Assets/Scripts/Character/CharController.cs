@@ -69,19 +69,25 @@ namespace Belwyn.ActionPlatformer.Game.Character {
         private float _currentJumpBuffer;
         private float _currentCoyote;
 
-        private bool _isClinging;
 
-        //private bool _isGroundDetected;
         private bool _isGrounded = false;
         private bool grounded { 
             get { return _isGrounded; }
             set { 
                 if(value != _isGrounded) {
+                    _wasGrounded = _isGrounded && !_isJumping;
                     _isGrounded = value;
                     onGroundedChange.Invoke(value);
                 }
             }
         }
+
+        private bool _wasGrounded;
+
+
+
+        private bool _isClinging;
+        private bool _wasClinging;
 
         private bool _againstLeftWall;
         private bool againstLeftWall {
@@ -104,6 +110,8 @@ namespace Belwyn.ActionPlatformer.Game.Character {
                 }
             }
         }
+
+
 
         private float velx =>  _rb.velocity.x;
         private float velY =>  _rb.velocity.y;
@@ -206,6 +214,8 @@ namespace Belwyn.ActionPlatformer.Game.Character {
                 _aerialDash = false;
                 _currentDashCount = 0;
                 _currentJumpCount = 0;
+                _isClinging = false;
+                _wasClinging = false;
             }
         }
 
@@ -218,10 +228,16 @@ namespace Belwyn.ActionPlatformer.Game.Character {
             }
             _changedDirection = wasRight != _isRight;
 
-            _isClinging = !_isGrounded && !_isJumping && velY <= 0.0001f && isMovingAgainstWall();
+            _wasClinging = _wasClinging || _isClinging;
+            _isClinging = !grounded && !_isJumping && velY <= 0.0001f && isMovingAgainstWall();
+            _wasClinging = _wasClinging && !_isClinging && !_isJumping;
+
             if (_isClinging) {
+                _wasGrounded = false;
                 _isDashing = false;
                 _aerialDash = false;
+                _currentDashCount = 0;
+                _currentJumpCount = 1;
             }
         }
 
@@ -235,7 +251,7 @@ namespace Belwyn.ActionPlatformer.Game.Character {
         ///// Assign physics materials for movement
         private void PreparePhysics() {
             // TODO _isDashing is changed after this, it's potentially one frame behing if no fixedUpdates remain in current frame
-            if (_isGrounded && !_isJumping && !_isMoving && !_isDashing) {
+            if (grounded && !_isJumping && !_isMoving && !_isDashing) {
                 _rb.sharedMaterial = stopMaterial;
             }
             else {
@@ -305,14 +321,23 @@ namespace Belwyn.ActionPlatformer.Game.Character {
 
 
         private void HandleJumping() {
-            // Jump count limit
-            if (_currentJumpCount < jumpCount && !_isJumping || _isClinging) {
+            if (_wasGrounded)
+                _currentJumpCount = 1;
 
-                UpdateCoyote();
-                if ((_currentJumpCount > 0 || _currentCoyote <= coyoteTime || _isClinging) && _currentJumpBuffer <= jumpBufferTime) {
+            UpdateCoyote();
+
+            // Jump count limit
+            //if (_currentJumpCount < jumpCount && !_isJumping || _isClinging) {
+            if (_currentJumpBuffer <= jumpBufferTime) {
+                
+                if (_isClinging || (_wasClinging && _currentCoyote <= coyoteTime)) {
+                    ClingJumpAction();
+                }
+                else if ((_currentJumpCount > 0 && _currentJumpCount < jumpCount) || _isGrounded || (_wasGrounded && _currentCoyote <= coyoteTime)) {
                     JumpAction();
                 }
             }
+            //}
         }
 
 
@@ -344,36 +369,49 @@ namespace Belwyn.ActionPlatformer.Game.Character {
 
 
         private void JumpAction() {
+            isJumping = true;
+
             // If aerial withouth jumping and not coyote time, reduce one jump
-            if (!grounded && _currentJumpCount == 0 && _currentCoyote > coyoteTime) {
+            /*if (!grounded && _currentJumpCount == 0 && _currentCoyote > coyoteTime) {
                 _currentJumpCount++;
-            }
+            }*/
 
             _rb.velocity = new Vector2(_rb.velocity.x, jumpSpeed);
             //_rb.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
+            _currentJumpCount++;
+            if (_wasGrounded && _currentCoyote <= coyoteTime)
+                _currentJumpCount--;
+
+            _isClinging = false;
+            _wasClinging = false;
+            _wasGrounded = false;
+            DisableJumpBuffer();
+        }
+
+
+        private void ClingJumpAction() {
 
             isJumping = true;
             // Wall jump is free
-            if (_isClinging) {
-                // TODO review this
-                _currentDashCount = 0;
-                _currentJumpCount = 1;
-            }
-            else {
-                _currentJumpCount++;
-            }
+            // TODO review this
+            _currentDashCount = 0;
+            _currentJumpCount = 1;
+
+            _rb.velocity = new Vector2(_rb.velocity.x, jumpSpeed);
 
             _isClinging = false;
+            _wasClinging = false;
+            _wasGrounded = false;
             DisableJumpBuffer();
         }
 
 
         private void UpdateCoyote() {
-            if (grounded) {
-                _currentCoyote = 0;
+            if (_wasGrounded || _wasClinging) {
+                _currentCoyote += Time.deltaTime;
             }
             else {
-                _currentCoyote += Time.deltaTime;
+                _currentCoyote = 0;
             }
         }
 
@@ -451,10 +489,13 @@ namespace Belwyn.ActionPlatformer.Game.Character {
             GUILayout.Label($"DashTime:  {_currentDashTime}");
             GUILayout.FlexibleSpace();
             GUILayout.Label($"Grounded {grounded}");
+            GUILayout.Label($"WasGrounded {_wasGrounded}");
             GUILayout.Label($"Jumping {_isJumping}");
             GUILayout.Label($"LeftWall {_againstLeftWall}");
             GUILayout.Label($"RightWall {_againstRightWall}");
             GUILayout.Label($"Clinging {_isClinging}");
+            GUILayout.Label($"WasClinging {_wasClinging}");
+            GUILayout.Label($"Coyote {_currentCoyote}");
         }
 #endif
 
