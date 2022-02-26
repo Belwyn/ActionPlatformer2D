@@ -62,6 +62,8 @@ TextureImporter:
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -71,8 +73,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -93,9 +95,12 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
   applyGammaDecoding: 0
   platformSettings:
   - serializedVersion: 3
@@ -204,7 +209,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 38712494ac5f10230800000000000000
-      internalID: 3603431426034374531
+      internalID: -8799337536654766957
       vertices: []
       indices: 
       edges: []
@@ -387,6 +392,19 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      Zero_SlashB_5: 909735082815886442
+      Zero_SlashB_0: 2514052626262570931
+      Zero_SlashB_2: -1408727861156458105
+      Zero_SlashB_8: -953090967294596094
+      Zero_SlashB_6: -3540511963141955275
+      Zero_SlashB_1: 7897064340912393777
+      Zero_SlashB_4: 1589985191660458717
+      Zero_SlashB_11: -8197958619505213354
+      Zero_SlashB_7: -6750790076031507204
+      Zero_SlashB_9: 3929948168303128638
+      Zero_SlashB_3: -8799337536654766957
+      Zero_SlashB_10: 2030105311043449684
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
